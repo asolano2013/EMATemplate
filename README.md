@@ -1,0 +1,2 @@
+
+[![Deploy to Azure](https://azurecomcdn.azureedge.net/mediahandler/acomblog/media/Default/blog/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fgitlab.devtools.intel.com%2Fadrianas%2Ftemplate-scripts%2F-%2Fraw%2Fmaster%2Ftemplate.json)

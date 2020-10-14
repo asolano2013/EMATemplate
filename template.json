@@ -1,0 +1,307 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccounts_emademodiag325_name": {
+            "defaultValue": "emademodiag325",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "name": "[parameters('storageAccounts_emademodiag325_name')]",
+            "location": "westus2",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "cors": {
+                    "allowedHeaders": [ "*" ],
+                    "allowedMethods": [ "get", "post", "put" ],
+                    "allowedOrigins": [ "*" ],
+                    "exposedHeaders": [ "*" ],
+                    "maximumAge": 5
+                    },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "keyType": "Account",
+                            "enabled": true
+                        },
+                        "blob": {
+                            "keyType": "Account",
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_emademodiag325_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_emademodiag325_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                },
+                "deleteRetentionPolicy": {
+                    "enabled": false
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/fileServices",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_emademodiag325_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_emademodiag325_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/queueServices",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_emademodiag325_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_emademodiag325_name'))]"
+            ],
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/tableServices",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_emademodiag325_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_emademodiag325_name'))]"
+            ],
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_emademodiag325_name'), '/default/bootdiagnostics-emademo-7a20d701-af84-42c7-a624-93c84fa32bbe')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_emademodiag325_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_emademodiag325_name'))]"
+            ],
+            "properties": {
+                "defaultEncryptionScope": "$account-encryption-key",
+                "denyEncryptionScopeOverride": false,
+                "publicAccess": "None"
+            }
+        },
+        {
+            "name": "sqlServer1",
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2014-04-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "sqlServer1"
+            },
+            "properties": {
+                "administratorLogin": "adminUsername",
+                "administratorLoginPassword": "adminPassword"
+            },
+            "resources": [
+                {
+                    "type": "firewallRules",
+                    "apiVersion": "2014-04-01",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', 'sqlServer1')]"
+                    ],
+                    "location": "[resourceGroup().location]",
+                    "name": "AllowAllWindowsAzureIps",
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Port443IB",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2019-11-01",
+            "properties": {
+                "description": "Port 443 Inbound",
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "443",
+                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
+                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
+                "access": "Allow",
+                "priority": 320,
+                "direction": "Inbound"
+            }
+        },
+        {
+            "name": "Port80",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2019-11-01",
+            "properties": {
+                "description": "nsgRuleDescription",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "80",
+                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
+                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
+                "access": "Allow",
+                "priority": 330,
+                "direction": "Inbound"
+            }
+        },
+        {
+            "name": "Port8080",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2019-11-01",
+            "properties": {
+                "description": "nsgRuleDescription",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "8080",
+                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
+                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
+                "access": "Allow",
+                "priority": 340,
+                "direction": "Inbound"
+            }
+        },
+        {
+            "name": "Port8172",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2019-11-01",
+            "properties": {
+                "description": "nsgRuleDescription",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "8172",
+                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
+                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
+                "access": "Allow",
+                "priority": 1010,
+                "direction": "Inbound"
+            }
+        },
+        {
+            "name": "Port443OB",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2019-11-01",
+            "properties": {
+                "description": "Port 443 Outbound",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "443",
+                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
+                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
+                "access": "Allow",
+                "priority": 100,
+                "direction": "Outbound"
+            }
+        },
+        {
+            "name": "Port8000",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2019-11-01",
+            "properties": {
+                "description": "nsgRuleDescription",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "8000",
+                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
+                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
+                "access": "Allow",
+                "priority": 110,
+                "direction": "Outbound"
+            }
+        },
+      /*   {
+            "name": "windowsVM1/WindowsWebServer",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-07-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "windowsVM1/WindowsWebServer"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', 'windowsVM1')]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.9",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "modulesUrl": "[concat('artifactsLocation', '/DSCModules/WindowsWebServer.zip')]",
+                    "sasToken": "artifactsLocationSasToken",
+                    "configurationFunction": "WindowsWebServer.ps1\\WindowsWebServer"
+                },
+                "protectedSettings": {
+                }
+            }
+        }, */
+        {
+            "name": "windowsVM1/deployIIS",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-07-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "deployIIS for Windows VM"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', 'windowsVM1')]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.10",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "https://gitlab.devtools.intel.com/adrianas/template-scripts/-/blob/master/deployIIS.ps1"
+                    ]
+                },
+                "protectedSettings": {
+                    "commandToExecute": "powershell -ExecutionPolicy Bypass -file deployIIS.ps1"
+                }
+            }
+        }
+        
+    ]
+}
+        
