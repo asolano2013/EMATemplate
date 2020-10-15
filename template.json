@@ -4,7 +4,7 @@
     "parameters": {
         "vmName": {
         "type": "string",
-        "defaultValue": "simple-vm",
+        "defaultValue": "ema-vm",
         "metadata": {
           "description": "Name of the virtual machine."
         }
