@@ -55,6 +55,16 @@
                 }
             },
             {
+                "name": "sqlUsername",
+                "type": "Microsoft.Compute.UserNameTextBox",
+                "label": "SQLUsername",
+                "toolTip": "Username for your SQL Server",
+                "osPlatform": "Windows",
+                "constraints": {
+                    "required": true
+                }
+            },
+            {
                 "name": "sqlPassword",
                 "type": "Microsoft.Common.PasswordBox",
                 "label": {
@@ -195,6 +205,9 @@
         "outputs": {
             "location": "[location()]",
             "vmName": "[basics('vmName')]",
+            "sqlDBName": "[basics('sqlDBName')]",
+            "sqlUsername": "[basics('sqlUsername')]",
+            "sqlPassword": "[basics('sqlPassword')]",
             "adminUsername": "[basics('adminUsername')]",
             "adminPassword": "[basics('password')]",
             "vmSize": "[steps('VirtualMachineConfig').vmSize]",
