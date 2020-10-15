@@ -4,7 +4,7 @@
     "parameters": {
         "vmName": {
         "type": "string",
-        "defaultValue": "ema-vm",
+        "defaultValue": "simple-vm",
         "metadata": {
           "description": "Name of the virtual machine."
         }
@@ -58,7 +58,25 @@
           "description": "SKU for the Public IP used to access the Virtual Machine."
         }
       },
-  
+      "sqlUsername": {
+          "type": "string",
+          "metadata": {
+              "description": "The username for SQL server."
+          }
+      },
+      "sqlPassword": {
+          "type": "securestring",
+          "metadata": {
+              "description": "The password for SQL server."
+          }
+      },
+      "sqlDBName": {
+          "type": "string",
+          "defaultValue": "EMA-DB",
+          "metadata": {
+              "description": "The name of the SQL Database."
+          }
+      },
       "OSVersion": {
         "type": "string",
         "defaultValue": "2019-Datacenter",
@@ -361,33 +379,39 @@
             }
         },
         {
-            "name": "sqlServer",
+            "name": "[parameters('vmName')]",
             "type": "Microsoft.Sql/servers",
             "apiVersion": "2014-04-01",
             "location": "[resourceGroup().location]",
             "tags": {
-                "displayName": "sqlServer"
+                "displayName": "[parameters('vmName')]"
             },
             "properties": {
-                "administratorLogin": "adminUsername",
-                "administratorLoginPassword": "adminPassword"
+                "administratorLogin": "[parameters('sqlUsername')]",
+                "administratorLoginPassword": "[parameters('sqlPassword')]"
             },
             "resources": [
                 {
-                    "type": "firewallRules",
+                    "type": "databases",
                     "apiVersion": "2014-04-01",
+                    "name": "[parameters('sqlDBName')]",
                     "dependsOn": [
-                        "[resourceId('Microsoft.Sql/servers', 'sqlServer')]"
+                        "[resourceId('Microsoft.Sql/servers', concat(parameters('vmName')))]"
                     ],
                     "location": "[resourceGroup().location]",
-                    "name": "AllowAllWindowsAzureIps",
+                    "sku":{
+                        "name": "Standard",
+                        "tier": "Standard"
+                    },
                     "properties": {
                         "startIpAddress": "0.0.0.0",
                         "endIpAddress": "0.0.0.0"
                     }
+
                 }
             ]
         }
+    
     ],
     "outputs": {
       "hostname": {
