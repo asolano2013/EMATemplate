@@ -17,25 +17,6 @@
                 }
             },
             {
-                "name": "sqlDBName",
-                "type": "Microsoft.Common.TextBox",
-                "label": "SQL DB Name",
-                "toolTip": "The name of the SQL Database"
-            },
-            {
-                "name": "sqlUsername",
-                "type": "Microsoft.Common.TextBox",
-                "label": "SQL Username",
-                "toolTip": "Username for you SQL DB."
-
-            },
-            {
-                "name": "sqlPassword",
-                "type": "Microsoft.Common.TextBox",
-                "label": "SQL Password",
-                "toolTip": "The password for your SQL DB."
-            },
-            {
                 "name": "adminUsername",
                 "type": "Microsoft.Compute.UserNameTextBox",
                 "label": "Username",
@@ -53,6 +34,37 @@
                     "confirmPassword": "Confirm password"
                 },
                 "toolTip": "Admin password for the virtual machine",
+                "constraints": {
+                    "required": true,
+                    "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{12,40}$",
+                    "validationMessage": "Password must be at least 12 characters long, and contain upper case, lower case, number and symbol"
+                },
+                "options": {
+                    "hideConfirmation": false
+                },
+                "visible": true
+            },
+            {
+                "name": "sqlDBName",
+                "type": "Microsoft.Common.TextBox",
+                "label": "SQL DB Name",
+                "toolTip": "The name of the SQL Database"
+            },
+            {
+                "name": "sqlUsername",
+                "type": "Microsoft.Common.TextBox",
+                "label": "SQL Username",
+                "toolTip": "Username for you SQL DB."
+
+            },
+            {
+                "name": "sqlPassword",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                    "password": "Password",
+                    "confirmPassword": "Confirm Password"
+                },
+                "toolTip": "The password for your SQL DB.",
                 "constraints": {
                     "required": true,
                     "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{12,40}$",
