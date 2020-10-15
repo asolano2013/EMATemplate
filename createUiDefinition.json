@@ -9,7 +9,7 @@
                 "type": "Microsoft.Common.TextBox",
                 "label": "Virtual Machine name",
                 "toolTip": "The name of the Virtual Machine.",
-                "defaultValue": "EMA-vm",
+                "defaultValue": "ema-vm",
                 "constraints": {
                     "required": true,
                     "regex": "^[a-z0-9A-Z-]{3,15}$",
