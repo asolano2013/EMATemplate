@@ -59,6 +59,7 @@
                 "type": "Microsoft.Compute.UserNameTextBox",
                 "label": "SQLUsername",
                 "toolTip": "Username for your SQL Server",
+                "osPlatform": "Windows",
                 "constraints": {
                     "required": true
                 }
