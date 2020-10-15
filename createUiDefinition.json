@@ -55,16 +55,6 @@
                 }
             },
             {
-                "name": "sqlUsername",
-                "type": "Microsoft.Compute.UserNameTextBox",
-                "label": "SQLUsername",
-                "toolTip": "Username for your SQL Server",
-                "osPlatform": "Windows",
-                "constraints": {
-                    "required": true
-                }
-            },
-            {
                 "name": "sqlPassword",
                 "type": "Microsoft.Common.PasswordBox",
                 "label": {
