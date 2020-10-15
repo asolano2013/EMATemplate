@@ -408,11 +408,9 @@
                         "startIpAddress": "0.0.0.0",
                         "endIpAddress": "0.0.0.0"
                     }
-
                 }
             ]
-        }
-    
+        } 
     ],
     "outputs": {
       "hostname": {
