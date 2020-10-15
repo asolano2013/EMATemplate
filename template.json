@@ -2,6 +2,13 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "vmName": {
+        "type": "string",
+        "defaultValue": "simple-vm",
+        "metadata": {
+          "description": "Name of the virtual machine."
+        }
+      },
       "adminUsername": {
         "type": "string",
         "metadata": {
@@ -87,13 +94,6 @@
         "defaultValue": "[resourceGroup().location]",
         "metadata": {
           "description": "Location for all resources."
-        }
-      },
-      "vmName": {
-        "type": "string",
-        "defaultValue": "simple-vm",
-        "metadata": {
-          "description": "Name of the virtual machine."
         }
       }
     },
