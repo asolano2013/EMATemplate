@@ -44,44 +44,6 @@
                 },
                 "visible": true
             },
-            {
-                "name": "sqlDBName",
-                "type": "Microsoft.Common.TextBox",
-                "label": "SQL DB Name",
-                "toolTip": "The name for your SQL Database.",
-                "defaultValue": "EMA-DB",
-                "constraints":{
-                    "required": true
-                }
-            },
-            {
-                "name": "sqlUsername",
-                "type": "Microsoft.Compute.UserNameTextBox",
-                "label": "SQLUsername",
-                "toolTip": "Username for your SQL Server",
-                "osPlatform": "Windows",
-                "constraints": {
-                    "required": true
-                }
-            },
-            {
-                "name": "sqlPassword",
-                "type": "Microsoft.Common.PasswordBox",
-                "label": {
-                    "password": "Password",
-                    "confirmPassword": "Confirm Password"
-                },
-                "toolTip": "Password for you SQL Server",
-                "constraints": {
-                    "required": true,
-                    "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{12,40}$",
-                    "validationMessage": "Password must be at least 12 characters long, and contain upper case, lower case, number and symbol"
-                },
-                "options": {
-                    "hideConfirmation": false
-                },
-                "visible": true
-            }          
         ],
         "steps": [
             {
@@ -205,9 +167,6 @@
         "outputs": {
             "location": "[location()]",
             "vmName": "[basics('vmName')]",
-            "sqlDBName": "[basics('sqlDBName')]",
-            "sqlUsername": "[basics('sqlUsername')]",
-            "sqlPassword": "[basics('sqlPassword')]",
             "adminUsername": "[basics('adminUsername')]",
             "adminPassword": "[basics('password')]",
             "vmSize": "[steps('VirtualMachineConfig').vmSize]",
