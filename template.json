@@ -177,6 +177,144 @@
         }
       },
       {
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2019-06-01",
+        "name": "[variables('networkSecurityGroupName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "securityRules": [
+            {
+              "name": "default-allow-443",
+              "properties": {
+                "priority": 443,
+                "access": "Allow",
+                "direction": "Inbound",
+                "destinationPortRange": "443",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2019-06-01",
+        "name": "[variables('networkSecurityGroupName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "securityRules": [
+            {
+              "name": "default-allow-80",
+              "properties": {
+                "priority": 330,
+                "access": "Allow",
+                "direction": "Inbound",
+                "destinationPortRange": "80",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2019-06-01",
+        "name": "[variables('networkSecurityGroupName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "securityRules": [
+            {
+              "name": "default-allow-8080",
+              "properties": {
+                "priority": 340,
+                "access": "Allow",
+                "direction": "Inbound",
+                "destinationPortRange": "8080",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2019-06-01",
+        "name": "[variables('networkSecurityGroupName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "securityRules": [
+            {
+              "name": "default-allow-443",
+              "properties": {
+                "priority": 100,
+                "access": "Allow",
+                "direction": "Outbound",
+                "destinationPortRange": "443",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2019-06-01",
+        "name": "[variables('networkSecurityGroupName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "securityRules": [
+            {
+              "name": "default-allow-8172",
+              "properties": {
+                "priority": 1010,
+                "access": "Allow",
+                "direction": "Outbound",
+                "destinationPortRange": "8172",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2019-06-01",
+        "name": "[variables('networkSecurityGroupName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "securityRules": [
+            {
+              "name": "default-allow-8000",
+              "properties": {
+                "priority": 110,
+                "access": "Allow",
+                "direction": "Outbound",
+                "destinationPortRange": "8000",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*"
+              }
+            }
+          ]
+        }
+      },
+      {
         "type": "Microsoft.Network/virtualNetworks",
         "apiVersion": "2019-06-01",
         "name": "[variables('virtualNetworkName')]",
@@ -283,133 +421,37 @@
           }
         }
       },
-        {
-            "name": "Port443IB",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "properties": {
-                "description": "Port 443 Inbound",
-                "protocol": "TCP",
-                "sourcePortRange": "*",
-                "destinationPortRange": "443",
-                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
-                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
-                "access": "Allow",
-                "priority": 320,
-                "direction": "Inbound"
-            }
-        },
-        {
-            "name": "Port80",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "properties": {
-                "description": "Port 80",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "80",
-                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
-                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
-                "access": "Allow",
-                "priority": 330,
-                "direction": "Inbound"
-            }
-        },
-        {
-            "name": "Port8080",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "properties": {
-                "description": "nsgRuleDescription",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "8080",
-                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
-                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
-                "access": "Allow",
-                "priority": 340,
-                "direction": "Inbound"
-            }
-        },
-        {
-            "name": "Port443OB",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "properties": {
-                "description": "Port 443 Outband",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "443",
-                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
-                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
-                "access": "Allow",
-                "priority": 100,
-                "direction": "Outbound"
-            }
-        },
-        {
-            "name": "Port8172",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "properties": {
-                "description": "nsgRuleDescription",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "8172",
-                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
-                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
-                "access": "Allow",
-                "priority": 1010,
-                "direction": "Inbound"
-            }
-        },
-        {
-            "name": "Port8000",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "properties": {
-                "description": "Port 8000",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "8000",
-                "sourceAddressPrefix": "nsgRuleSourceAddressPrefix",
-                "destinationAddressPrefix": "nsgRileDestinationAddressRange",
-                "access": "Allow",
-                "priority": 110,
-                "direction": "Outbound"
-            }
-        },
-        {
-            "name": "[parameters('vmName')]",
-            "type": "Microsoft.Sql/servers",
-            "apiVersion": "2014-04-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "[parameters('vmName')]"
-            },
-            "properties": {
-                "administratorLogin": "[parameters('sqlUsername')]",
-                "administratorLoginPassword": "[parameters('sqlPassword')]"
-            },
-            "resources": [
-                {
-                    "type": "databases",
-                    "apiVersion": "2014-04-01",
-                    "name": "[parameters('sqlDBName')]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Sql/servers', concat(parameters('vmName')))]"
-                    ],
-                    "location": "[resourceGroup().location]",
-                    "sku":{
-                        "name": "Standard",
-                        "tier": "Standard"
-                    },
-                    "properties": {
-                        "startIpAddress": "0.0.0.0",
-                        "endIpAddress": "0.0.0.0"
-                    }
-                }
-            ]
+      {
+          "name": "[parameters('vmName')]",
+          "type": "Microsoft.Sql/servers",
+          "apiVersion": "2014-04-01",
+          "location": "[resourceGroup().location]",
+          "tags": {
+              "displayName": "[parameters('vmName')]"
+          },
+          "properties": {
+              "administratorLogin": "[parameters('sqlUsername')]",
+              "administratorLoginPassword": "[parameters('sqlPassword')]"
+          },
+          "resources": [
+              {
+                  "type": "databases",
+                  "apiVersion": "2014-04-01",
+                  "name": "[parameters('sqlDBName')]",
+                  "dependsOn": [
+                      "[resourceId('Microsoft.Sql/servers', concat(parameters('vmName')))]"
+                  ],
+                  "location": "[resourceGroup().location]",
+                  "sku":{
+                      "name": "Standard",
+                      "tier": "Standard"
+                  },
+                  "properties": {
+                      "startIpAddress": "0.0.0.0",
+                      "endIpAddress": "0.0.0.0"
+                  }
+              }
+          ]
         }
       ],
     "outputs": {
