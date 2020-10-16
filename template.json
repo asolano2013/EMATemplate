@@ -179,7 +179,7 @@
       {
         "type": "Microsoft.Network/networkSecurityGroups",
         "apiVersion": "2019-06-01",
-        "name": "[variables('networkSecurityGroupName')]",
+        "name": "Port443IB",
         "location": "[parameters('location')]",
         "properties": {
           "securityRules": [
@@ -202,7 +202,7 @@
       {
         "type": "Microsoft.Network/networkSecurityGroups",
         "apiVersion": "2019-06-01",
-        "name": "[variables('networkSecurityGroupName')]",
+        "name": "Port80",
         "location": "[parameters('location')]",
         "properties": {
           "securityRules": [
@@ -225,7 +225,7 @@
       {
         "type": "Microsoft.Network/networkSecurityGroups",
         "apiVersion": "2019-06-01",
-        "name": "[variables('networkSecurityGroupName')]",
+        "name": "Port8080",
         "location": "[parameters('location')]",
         "properties": {
           "securityRules": [
@@ -248,7 +248,7 @@
       {
         "type": "Microsoft.Network/networkSecurityGroups",
         "apiVersion": "2019-06-01",
-        "name": "[variables('networkSecurityGroupName')]",
+        "name": "Port443OB",
         "location": "[parameters('location')]",
         "properties": {
           "securityRules": [
@@ -271,7 +271,7 @@
       {
         "type": "Microsoft.Network/networkSecurityGroups",
         "apiVersion": "2019-06-01",
-        "name": "[variables('networkSecurityGroupName')]",
+        "name": "Port1010",
         "location": "[parameters('location')]",
         "properties": {
           "securityRules": [
@@ -294,7 +294,7 @@
       {
         "type": "Microsoft.Network/networkSecurityGroups",
         "apiVersion": "2019-06-01",
-        "name": "[variables('networkSecurityGroupName')]",
+        "name": "Port8000",
         "location": "[parameters('location')]",
         "properties": {
           "securityRules": [
