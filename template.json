@@ -399,7 +399,7 @@
               },
               "createOption": "FromImage",
               "managedDisk": {
-                "storageAccountType": "StandardSSD_LRS"
+                "id": "[resourceId('Microsoft/Compute/disks', concat(parameters('vmName'), '_OSdisk'))]"
               }
             },
             "dataDisks": [
