@@ -443,15 +443,15 @@
       "apiVersion": "2019-07-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', toLower(parameters('vmName')))]",
-        "[resourceId('Microsoft.Network/networkInterfaces', parameters('vmName'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
       ],
       "tags": {
         "displayName": "windowsVM1"
       },
       "properties": {
         "hardwareProfile": {
-          "vmSize": "Standard_A2_v2"
+          "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
           "computerName": "[parameters('vmName')]",
@@ -462,11 +462,11 @@
           "imageReference": {
             "publisher": "MicrosoftWindowsServer",
             "offer": "WindowsServer",
-            "sku": "2012-R2-Datacenter",
+            "sku": "[parameters('OSVersion')]",
             "version": "latest"
           },
           "osDisk": {
-            "name": "windowsVM1OSDisk",
+            "name":"[parameters('vmName')]",
             "caching": "ReadWrite",
             "createOption": "FromImage"
           }
@@ -474,14 +474,14 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('vmName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             }
           ]
         },
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": true,
-            "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', toLower(parameters('vmName')))).primaryEndpoints.blob]"
+            "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/',variables('storageAccountName'))).primaryEndpoints.blob]"
           }
         }
       }
