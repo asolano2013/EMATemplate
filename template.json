@@ -329,7 +329,9 @@
       },
       "properties": {
         "addressSpace": {
-          "addressPrefixes": "[variables('addressPrefix')]"
+          "addressPrefixes": [
+              "[variables('addressPrefix')]"
+          ]
         },
         "subnets": [
           {
@@ -423,12 +425,12 @@
       }
     },
      {
-      "name": "[toLower(parameters('vmName'))]",
+      "name": "[toLower(variables('storageAccountName'))]",
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2019-06-01",
       "location": "[resourceGroup().location]",
       "tags": {
-        "displayName": "[parameters('vmName')]"
+        "displayName": "windows Storage Account"
       },
       "sku": {
         "name": "Standard_LRS"
