@@ -485,8 +485,21 @@
           }
         }
       }
+    },
+     {
+      "name": "[toLower('windowsVM1storage')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-06-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "[parameters('vmName')]"
+      },
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "Storage"
     }
-      ],
+    ],
     "outputs": {
       "hostname": {
         "type": "string",
