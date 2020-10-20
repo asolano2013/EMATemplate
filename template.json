@@ -320,7 +320,7 @@
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2019-11-01",
       "name": "[variables('virtualNetworkName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
       ],
@@ -348,7 +348,7 @@
       "name": "[variables('nicName')]",
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2019-11-01",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]",
         "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
@@ -423,7 +423,7 @@
       }
     },
      {
-      "name": "[parameters('vmName')]",
+      "name": "[toLower(parameters('vmName'))]",
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2019-06-01",
       "location": "[resourceGroup().location]",
