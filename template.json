@@ -139,44 +139,6 @@
         "properties": {}
       },
       {
-        "type": "Microsoft.Network/publicIPAddresses",
-        "apiVersion": "2019-06-01",
-        "name": "[parameters('publicIPName')]",
-        "location": "[parameters('location')]",
-        "sku": {
-          "name": "[parameters('publicIpSku')]"
-        },
-        "properties": {
-          "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]",
-          "dnsSettings": {
-            "domainNameLabel": "[parameters('dnsLabelPrefix')]"
-          }
-        }
-      },
-      {
-        "type": "Microsoft.Network/networkSecurityGroups",
-        "apiVersion": "2019-06-01",
-        "name": "[variables('networkSecurityGroupName')]",
-        "location": "[parameters('location')]",
-        "properties": {
-          "securityRules": [
-            {
-              "name": "default-allow-3389",
-              "properties": {
-                "priority": 1000,
-                "access": "Allow",
-                "direction": "Inbound",
-                "destinationPortRange": "3389",
-                "protocol": "Tcp",
-                "sourcePortRange": "*",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*"
-              }
-            }
-          ]
-        }
-      },
-      {
         "type": "Microsoft.Network/networkSecurityGroups",
         "apiVersion": "2019-06-01",
         "name": "Port443IB",
@@ -314,57 +276,31 @@
           ]
         }
       },
-     
-      {
-        "type": "Microsoft.Network/networkInterfaces",
-        "apiVersion": "2019-06-01",
-        "name": "[variables('nicName')]",
-        "location": "[parameters('location')]",
-        "dependsOn": [
-          "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]",
-          "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
-        ],
-        "properties": {
-          "ipConfigurations": [
-            {
-              "name": "ipconfig1",
-              "properties": {
-                "privateIPAllocationMethod": "Dynamic",
-                "publicIPAddress": {
-                  "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]"
-                },
-                "subnet": {
-                  "id": "[variables('subnetRef')]"
-                }
-              }
-            }
-          ]
-        }
-      },
     {
-      "name": "windowsVM1-PublicIP",
+      "name": "[parameters('publicIPName')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "apiVersion": "2019-11-01",
       "location": "[resourceGroup().location]",
+      "sku": {"name": "[parameters('publicIpSku')]"},
       "tags": {
         "displayName": "PublicIPAddress"
       },
       "properties": {
-        "publicIPAllocationMethod": "Dynamic",
+        "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]",
         "dnsSettings": {
-          "domainNameLabel": "[toLower(parameters('vmName'))]"
+          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
         }
       }
     },
     {
-      "name": "windowsVM1-nsg",
+      "name": "[variables('networkSecurityGroupName')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "apiVersion": "2018-08-01",
       "location": "[resourceGroup().location]",
       "properties": {
         "securityRules": [
           {
-            "name": "nsgRule1",
+            "name": "default-allow-3389",
             "properties": {
               "description": "description",
               "protocol": "Tcp",
@@ -389,7 +325,7 @@
         "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
       ],
       "tags": {
-        "displayName": "windowsVM1-VirtualNetwork"
+        "displayName": "[variables('virtualNetworkName')]"
       },
       "properties": {
         "addressSpace": {
@@ -409,7 +345,7 @@
       }
     },
     {
-      "name": "windowsVM1-NetworkInterface",
+      "name": "[variables('nicName')]",
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2019-11-01",
       "location": "[resourceGroup().location]",
@@ -418,7 +354,7 @@
         "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
       ],
       "tags": {
-        "displayName": "windowsVM1 Network Interface"
+        "displayName": "[variables('nicName')]"
       },
       "properties": {
         "ipConfigurations": [
@@ -430,7 +366,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]"
               },
               "subnet": {
-                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), 'windowsVM1-VirtualNetwork-Subnet')]"
+                "id": "[variables('subnetRef')]"
               }
             }
           }
@@ -447,7 +383,7 @@
         "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
       ],
       "tags": {
-        "displayName": "windowsVM1"
+        "displayName": "[parameters('vmName')]"
       },
       "properties": {
         "hardwareProfile": {
