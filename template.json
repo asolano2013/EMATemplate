@@ -73,7 +73,7 @@
       },
       "sqlDBName": {
           "type": "string",
-          "defaultValue": "ema-db",
+          "defaultValue": "emadb",
           "metadata": {
               "description": "The name of the SQL Database."
           }
