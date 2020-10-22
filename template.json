@@ -21,13 +21,6 @@
                 "description": "Password for the virtual machine."
             }
         },
-        "dnsLabelPrefix": {
-            "type": "string",
-            "defaultValue": "[toLower(parameters('vmName'))]",
-            "metadata": {
-                "description": "Unique DNS Name for the public IP used to access the virtual machine."
-            }
-        },
         "publicIpName": {
             "type": "string",
             "defaultValue": "myPublicIP",
@@ -111,125 +104,6 @@
                 "edition": "Basic",
                 "maxSizeBytes": "1073741824",
                 "requestedServiceObjectiveName": "Basic"
-            }
-        },
-        {
-            "name": "Port443IB",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "description": "Port 443 Inbound",
-                "protocol": "Tcp",
-                "sourcePortRange": "*",
-                "destinationPortRange": "443",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 1010,
-                "direction": "Inbound"
-            }
-        },
-        {
-            "name": "Port80",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "description": "Port 80",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "80",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 330,
-                "direction": "Inbound"
-            }
-        },
-        {
-            "name": "Port8080",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "description": "Port 8080",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "8080",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 340,
-                "direction": "Inbound"
-            }
-        },
-        {
-            "name": "Port443OB",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "description": "Port 443 Outbound",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "443",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 100,
-                "direction": "Outbound"
-            }
-        },
-        {
-            "name": "Port1010",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "description": "Port 1010",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "1010",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 1000,
-                "direction": "Inbound"
-            }
-        },
-        {
-            "name": "Port8000",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "description": "Port 8000",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "8000",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 110,
-                "direction": "Inbound"
-            }
-        },
-        {
-            "name": "Port3389",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2019-11-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "description": "Port 3389",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "3389",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 100,
-                "direction": "Inbound"
             }
         }
     ],
