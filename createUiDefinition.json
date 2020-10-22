@@ -27,6 +27,16 @@
                 }
             },
             {
+                "name": "sqlDBName",
+                "type": "Microsoft.Compute.UserNameTextBox",
+                "label": "dbName",
+                "toolTip": "Name for you database.",
+                "osPlatform": "Windows",
+                "constraints": {
+                    "required": true
+                }
+            },
+            {
                 "name": "password",
                 "type": "Microsoft.Common.PasswordBox",
                 "label": {
