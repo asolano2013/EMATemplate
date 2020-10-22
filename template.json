@@ -49,13 +49,6 @@
                 "description": "Size of the virtual machine."
             }
         },
-        "location": {
-            "type": "string",
-            "defaultValue": "[resourceGroup().location]",
-            "metadata": {
-                "description": "Location for all the resources"
-            }
-        },
         "sqlDBName": {
             "type": "string",
             "defaultValue": "EMAdb",
@@ -129,7 +122,7 @@
                 "description": "Port 443 Inbound",
                 "protocol": "Tcp",
                 "sourcePortRange": "443",
-                "destinationPortRange": "443",
+                "destinationPortRange": "*",
                 "sourceAddressPrefix": "*",
                 "destinationAddressPrefix": "*",
                 "access": "Allow",
@@ -146,7 +139,7 @@
                 "description": "Port 80",
                 "protocol": "*",
                 "sourcePortRange": "80",
-                "destinationPortRange": "80",
+                "destinationPortRange": "*",
                 "sourceAddressPrefix": "*",
                 "destinationAddressPrefix": "*",
                 "access": "Allow",
@@ -163,7 +156,7 @@
                 "description": "Port 8080",
                 "protocol": "*",
                 "sourcePortRange": "8080",
-                "destinationPortRange": "8080",
+                "destinationPortRange": "*",
                 "sourceAddressPrefix": "*",
                 "destinationAddressPrefix": "*",
                 "access": "Allow",
@@ -180,7 +173,7 @@
                 "description": "Port 443 Outbound",
                 "protocol": "*",
                 "sourcePortRange": "443",
-                "destinationPortRange": "443",
+                "destinationPortRange": "*",
                 "sourceAddressPrefix": "*",
                 "destinationAddressPrefix": "*",
                 "access": "Allow",
@@ -197,7 +190,7 @@
                 "description": "Port 1010",
                 "protocol": "*",
                 "sourcePortRange": "1010",
-                "destinationPortRange": "1010",
+                "destinationPortRange": "*",
                 "sourceAddressPrefix": "*",
                 "destinationAddressPrefix": "*",
                 "access": "Allow",
@@ -214,7 +207,7 @@
                 "description": "Port 8000",
                 "protocol": "*",
                 "sourcePortRange": "8000",
-                "destinationPortRange": "8000",
+                "destinationPortRange": "*",
                 "sourceAddressPrefix": "*",
                 "destinationAddressPrefix": "*",
                 "access": "Allow",
@@ -231,7 +224,7 @@
                 "description": "Port 3389",
                 "protocol": "*",
                 "sourcePortRange": "3389",
-                "destinationPortRange": "3389",
+                "destinationPortRange": "*",
                 "sourceAddressPrefix": "*",
                 "destinationAddressPrefix": "*",
                 "access": "Allow",
