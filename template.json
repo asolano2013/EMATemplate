@@ -48,6 +48,31 @@
           "description": "Allocation method for the Public IP used to access the Virtual Machine."
         }
       },
+       "sqlDataDisksCount": {
+        "type": "int",
+        "defaultValue": 1,
+        "minValue": 1,
+        "maxValue": 8,
+        "metadata": {
+          "description": "Amount of data disks (1TB each) for SQL Data files"
+        }
+    },
+    "sqlLogDisksCount": {
+      "type": "int",
+      "defaultValue": 1,
+      "minValue": 1,
+      "maxValue": 8,
+      "metadata": {
+        "description": "Amount of data disks (1TB each) for SQL Log files"
+      }
+    },
+    "storageWorkloadType": {
+      "type": "String",
+      "defaultValue": "General",
+      "metadata": {
+        "description": "SQL Server Workload Type"
+      }
+    },
       "publicIpSku": {
         "type": "string",
         "defaultValue": "Basic",
@@ -59,6 +84,20 @@
           "description": "SKU for the Public IP used to access the Virtual Machine."
         }
       },
+      "dataPath": {
+      "type": "String",
+      "defaultValue": "F:\\SQLData",
+      "metadata": {
+        "description": "Path for SQL Data files. Please choose drive letter from F to Z, and other drives from A to E are reserved for system"
+      }
+    },
+    "logPath": {
+      "type": "String",
+      "defaultValue": "G:\\SQLLog",
+      "metadata": {
+        "description": "Path for SQL Log files. Please choose drive letter from F to Z and different than the one used for SQL data. Drive letter from A to E are reserved for system"
+      }
+    },
       "sqlUsername": {
           "type": "string",
           "metadata": {
@@ -101,6 +140,22 @@
           "description": "The Windows version for the VM. This will pick a fully patched image of this given Windows version."
         }
       },
+      "imageOffer": {
+      "type": "String",
+      "defaultValue": "sql2019-ws2019",
+      "allowedValues": [
+        "sql2019-ws2019",
+        "sql2017-ws2019",
+        "SQL2017-WS2016",
+        "SQL2016SP1-WS2016",
+        "SQL2016SP2-WS2016",
+        "SQL2014SP3-WS2012R2",
+        "SQL2014SP2-WS2012R2"
+      ],
+      "metadata": {
+        "description": "Windows Server and SQL Offer"
+      }
+    },
       "vmSize": {
         "type": "string",
         "defaultValue": "Standard_D2_v3",
@@ -119,12 +174,23 @@
     "variables": {
       "storageAccountName": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
       "nicName": "myVMNic",
+      "diskConfigurationType": "NEW",
       "addressPrefix": "10.0.0.0/16",
       "subnetName": "Subnet",
       "subnetPrefix": "10.0.0.0/24",
       "virtualNetworkName": "MyVNET",
+      "dataDisksLuns": "[array(range(0 ,parameters('sqlDataDisksCount')))]",
+    "logDisksLuns": "[array(range(parameters('sqlDataDisksCount'), parameters('sqlLogDisksCount')))]",
       "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
-      "networkSecurityGroupName": "default-NSG"
+      "networkSecurityGroupName": "default-NSG",
+      "dataDisks": {
+        "createOption": "empty",
+        "caching": "ReadOnly",
+        "writeAcceleratorEnabled": false,
+        "storageAccountType": "Premium_LRS",
+        "diskSizeGB": 1023
+      },
+      "tempDbPath": "D:\\SQLTemp"
     },
     "resources": [
       {
@@ -390,84 +456,84 @@
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
-        },
-        "osProfile": {
-          "computerName": "[parameters('vmName')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "MicrosoftWindowsServer",
-            "offer": "WindowsServer",
-            "sku": "[parameters('OSVersion')]",
-            "version": "latest"
-          },
-          "osDisk": {
+      },
+      "storageProfile": {
+        "osDisk": {
             "name":"[parameters('vmName')]",
             "caching": "ReadWrite",
-            "createOption": "FromImage"
+            "createOption": "FromImage",
+            "managedDisk": {
+              "storageAccountType": "Premium_LRS"
+            }
+          },
+        "imageReference": {
+          "publisher": "MicrosoftSQLServer",
+          "offer": "[parameters('imageOffer')]",
+          "sku": "[parameters('OSVersion')]",
+          "version": "latest"
+      },
+      "copy": [
+          {
+            "name": "dataDisks",
+            "count": "[add(parameters('sqlDataDisksCount'), parameters('sqlLogDisksCount'))]",
+            "input": {
+              "lun": "[copyIndex('dataDisks')]",
+              "createOption": "[variables('dataDisks').createOption]",
+              "caching": "[if(greaterOrEquals(copyIndex('dataDisks'), parameters('sqlDataDisksCount')) ,'None', variables('dataDisks').caching )]",
+              "writeAcceleratorEnabled": "[variables('dataDisks').writeAcceleratorEnabled]",
+              "diskSizeGB": "[variables('dataDisks').diskSizeGB]",
+              "managedDisk": {
+                "storageAccountType": "[variables('dataDisks').storageAccountType]"
+              }
+            }
           }
-        },
-        "networkProfile": {
+        ]
+      },
+      "networkProfile": {
           "networkInterfaces": [
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             }
           ]
         },
-        "diagnosticsProfile": {
-          "bootDiagnostics": {
-            "enabled": true,
-            "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/',variables('storageAccountName'))).primaryEndpoints.blob]"
+        "osProfile": {
+          "computerName": "[parameters('vmName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+           "windowsConfiguration": {
+            "enableAutomaticUpdates": true,
+            "provisionVmAgent": true
           }
         }
       }
     },
-    {
-      "name": "sqlServer1",
-      "type": "Microsoft.Sql/servers",
-      "apiVersion": "2014-04-01",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "sqlServer1"
-      },
-      "properties": {
-        "administratorLogin": "[parameters('sqlUsername')]",
-        "administratorLoginPassword": "[parameters('sqlPassword')]"
-      },
-      "resources": [
-        {
-          "type": "firewallRules",
-          "apiVersion": "2014-04-01",
-          "dependsOn": [
-            "[resourceId('Microsoft.Sql/servers', 'sqlServer1')]"
-          ],
-          "location": "[resourceGroup().location]",
-          "name": "AllowAllWindowsAzureIps",
-          "properties": {
-            "startIpAddress": "0.0.0.0",
-            "endIpAddress": "0.0.0.0"
-          }
-        }
-      ]
-    },
-    {
-      "name": "sqlServer1/sqlDatabase1",
-      "type": "Microsoft.Sql/servers/databases",
-      "apiVersion": "2014-04-01",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "[parameters('sqlDBName')]"
-      },
+      {
+      "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
+      "apiVersion": "2017-03-01-preview",
+      "name": "[parameters('vmName')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Sql/servers', 'sqlServer1')]"
+        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
       ],
       "properties": {
-        "collation": "SQL_Latin1_General_CP1_CI_AS",
-        "edition": "Basic",
-        "maxSizeBytes": "1073741824",
-        "requestedServiceObjectiveName": "Basic"
+        "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
+        "sqlManagement": "Full",
+        "SqlServerLicenseType": "PAYG",
+        "StorageConfigurationSettings": {
+          "DiskConfigurationType": "[variables('diskConfigurationType')]",
+          "StorageWorkloadType": "[parameters('storageWorkloadType')]",
+          "SQLDataSettings": {
+            "LUNs": "[variables('dataDisksLUNs')]",
+            "DefaultFilePath": "[parameters('dataPath')]"
+          },
+          "SQLLogSettings": {
+            "Luns": "[variables('logDisksLUNs')]",
+            "DefaultFilePath": "[parameters('logPath')]"
+          },
+          "SQLTempDbSettings": {
+            "DefaultFilePath": "[variables('tempDbPath')]"
+          }
+        }
       }
     }
     ],
