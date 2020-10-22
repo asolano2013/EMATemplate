@@ -140,13 +140,43 @@
                 "name": "[variables('publicIpAddressSku')]"
             },
             "tags": {
-                "displayName": "[variables('publicIpAddressName')]"
+                "displayName": "PublicIPAddress"
             },
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
                     "domainNameLabel": "[variables('publicIpAddressName')]"
                 }
+            }
+        },
+        {
+            "name": "[variables('virtualNetworkName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('networkSecurityGroups', variables('networkSecurityGroupMame'))]"
+            ],
+            "tags": {
+                "displayName": "[variables('virtualNetworkName')]"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.0.0.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupMame'))]"
+                            }
+                        }
+                    }
+                ]
             }
         }
     ],
