@@ -174,13 +174,16 @@
     "variables": {
       "storageAccountName": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
       "nicName": "myVMNic",
+      "publicIpAddressName": "[concat(parameters('vmName'), '-publicip-', uniqueString(parameters('vmName')))]",
+      "publicIpAddressType": "Dynamic",
+      "publicIpAddressSku": "Basic",
       "diskConfigurationType": "NEW",
       "addressPrefix": "10.0.0.0/16",
       "subnetName": "Subnet",
       "subnetPrefix": "10.0.0.0/24",
       "virtualNetworkName": "MyVNET",
       "dataDisksLuns": "[array(range(0 ,parameters('sqlDataDisksCount')))]",
-    "logDisksLuns": "[array(range(parameters('sqlDataDisksCount'), parameters('sqlLogDisksCount')))]",
+      "logDisksLuns": "[array(range(parameters('sqlDataDisksCount'), parameters('sqlLogDisksCount')))]",
       "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
       "networkSecurityGroupName": "default-NSG",
       "dataDisks": {
@@ -194,16 +197,32 @@
     },
     "resources": [
       {
-        "type": "Microsoft.Storage/storageAccounts",
-        "apiVersion": "2019-06-01",
-        "name": "[toLower(variables('storageAccountName'))]",
-        "location": "[parameters('location')]",
-        "sku": {
-          "name": "Standard_LRS"
-        },
-        "kind": "Storage",
-        "properties": {}
+      "name": "[parameters('publicIPName')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2019-11-01",
+      "location": "[resourceGroup().location]",
+      "sku": {"name": "[parameters('publicIpSku')]"},
+      "tags": {
+        "displayName": "PublicIPAddress"
       },
+      "properties": {
+        "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-06-01",
+      "name": "[toLower(variables('storageAccountName'))]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "Storage",
+      "properties": {}
+    },
       {
         "type": "Microsoft.Network/networkSecurityGroups",
         "apiVersion": "2019-06-01",
@@ -343,22 +362,6 @@
         }
       },
     {
-      "name": "[parameters('publicIPName')]",
-      "type": "Microsoft.Network/publicIPAddresses",
-      "apiVersion": "2019-11-01",
-      "location": "[resourceGroup().location]",
-      "sku": {"name": "[parameters('publicIpSku')]"},
-      "tags": {
-        "displayName": "PublicIPAddress"
-      },
-      "properties": {
-        "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]",
-        "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
-        }
-      }
-    },
-    {
       "name": "[variables('networkSecurityGroupName')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "apiVersion": "2018-08-01",
@@ -461,7 +464,7 @@
         "osDisk": {
             "name":"[parameters('vmName')]",
             "caching": "ReadWrite",
-            "createOption": "FromImage",
+            "createOption": "fromImage",
             "managedDisk": {
               "storageAccountType": "Premium_LRS"
             }
