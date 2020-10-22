@@ -52,7 +52,7 @@
         "subnetName": "Subnet",
         "virtualNetworkName": "MyVNET",
         "subnetRef": "[resourceId('Microsoft.Network/VirtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
-        "networkSecurityGroupMame": "deafault-NSG"
+        "networkSecurityGroupMame": "default-NSG"
     },
     "resources": [
         {
@@ -155,7 +155,7 @@
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('networkSecurityGroups', variables('networkSecurityGroupMame'))]"
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupMame'))]"
             ],
             "tags": {
                 "displayName": "[variables('virtualNetworkName')]"
