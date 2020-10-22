@@ -43,37 +43,6 @@
                     "hideConfirmation": false
                 },
                 "visible": true
-            },
-            {
-                "name": "sqlDBName",
-                "type": "Microsoft.Common.TextBox",
-                "label": "SQL DB Name",
-                "toolTip": "The name of the SQL Database"
-            },
-            {
-                "name": "sqlUsername",
-                "type": "Microsoft.Common.TextBox",
-                "label": "SQL Username",
-                "toolTip": "Username for you SQL DB."
-
-            },
-            {
-                "name": "sqlPassword",
-                "type": "Microsoft.Common.PasswordBox",
-                "label": {
-                    "password": "Password",
-                    "confirmPassword": "Confirm Password"
-                },
-                "toolTip": "The password for your SQL DB.",
-                "constraints": {
-                    "required": true,
-                    "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{12,40}$",
-                    "validationMessage": "Password must be at least 12 characters long, and contain upper case, lower case, number and symbol"
-                },
-                "options": {
-                    "hideConfirmation": false
-                },
-                "visible": true
             }
         ],
         "steps": [
@@ -90,69 +59,8 @@
                         "name": "OSVersion",
                         "type": "Microsoft.Common.DropDown",
                         "label": "Windows OS Version",
-                        "defaultValue": "2019-Datacenter",
+                        "defaultValue": "2016-Datacenter",
                         "toolTip": "The OS Version for the VM Image",
-                        "constraints": {
-                            "allowedValues": [
-                                {
-                                    "value": "2008-R2-SP1",
-                                    "label": "2008-R2-SP1"
-                                },
-                                {
-                                    "value": "2012-Datacenter",
-                                    "label": "2012-Datacenter"
-                                },
-                                {
-                                    "value": "2012-R2-Datacenter",
-                                    "label": "2012-R2-Datacenter"
-                                },
-                                {
-                                    "value": "2016-Nano-Server",
-                                    "label": "2016-Nano-Server"
-                                },
-                                {
-                                    "value": "2016-Datacenter-with-Containers",
-                                    "label": "2016-Datacenter-with-Containers"
-                                },
-                                {
-                                    "value": "2016-Datacenter",
-                                    "label": "2016-Datacenter"
-                                },
-                                {
-                                    "value": "2019-Datacenter",
-                                    "label": "2019-Datacenter"
-                                },
-                                {
-                                    "value": "2019-Datacenter-Core",
-                                    "label": "2019-Datacenter-Core"
-                                },
-                                {
-                                    "value": "2019-Datacenter-Core-smalldisk",
-                                    "label": "2019-Datacenter-Core-smalldisk"
-                                },
-                                {
-                                    "value": "2019-Datacenter-Core-with-Containers",
-                                    "label": "2019-Datacenter-Core-with-Containers"
-                                },
-                                {
-                                    "value": "2019-Datacenter-Core-with-Containers-smalldisk",
-                                    "label": "2019-Datacenter-Core-with-Containers-smalldisk"
-                                },
-                                {
-                                    "value": "2019-Datacenter-smalldisk",
-                                    "label": "2019-Datacenter-smalldisk"
-                                },
-                                {
-                                    "value": "2019-Datacenter-with-Containers",
-                                    "label": "2019-Datacenter-with-Containers"
-                                },
-                                {
-                                    "value": "2019-Datacenter-with-Containers-smalldisk",
-                                    "label": "2019-Datacenter-with-Containers-smalldisk"
-                                }
-                            ],
-                            "required": true
-                        },
                         "visible": true
                     },                
                     {
@@ -200,9 +108,6 @@
             "vmName": "[basics('vmName')]",
             "adminUsername": "[basics('adminUsername')]",
             "adminPassword": "[basics('password')]",
-            "sqlDBName": "[basics('sqlDBName')]",
-            "sqlUsername": "[basics('sqlUsername')]",
-            "sqlPassword": "[basics('sqlPassword')]",
             "vmSize": "[steps('VirtualMachineConfig').vmSize]",
             "OSVersion": "[steps('VirtualMachineConfig').OSVersion]",
 
