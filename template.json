@@ -23,7 +23,7 @@
         },
         "dnsLabelPrefix": {
             "type": "string",
-            "defaultValue": "[toLower(concat(parameters('vmName')))]",
+            "defaultValue": "[toLower(parameters('vmName'))]",
             "metadata": {
                 "description": "Unique DNS Name for the public IP used to access the virtual machine."
             }
@@ -124,7 +124,7 @@
             "name": "Port443IB",
             "type": "Microsoft.Network/networkSecurityGroups/securityRules",
             "apiVersion": "2019-11-01",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "description": "Port 443 Inbound",
                 "protocol": "Tcp",
@@ -141,6 +141,7 @@
             "name": "Port80",
             "type": "Microsoft.Network/networkSecurityGroups/securityRules",
             "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "description": "Port 80",
                 "protocol": "*",
@@ -157,6 +158,7 @@
             "name": "Port8080",
             "type": "Microsoft.Network/networkSecurityGroups/securityRules",
             "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "description": "Port 8080",
                 "protocol": "*",
@@ -173,6 +175,7 @@
             "name": "Port443OB",
             "type": "Microsoft.Network/networkSecurityGroups/securityRules",
             "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "description": "Port 443 Outbound",
                 "protocol": "*",
@@ -189,6 +192,7 @@
             "name": "Port1010",
             "type": "Microsoft.Network/networkSecurityGroups/securityRules",
             "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "description": "Port 1010",
                 "protocol": "*",
@@ -205,6 +209,7 @@
             "name": "Port8000",
             "type": "Microsoft.Network/networkSecurityGroups/securityRules",
             "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "description": "Port 8000",
                 "protocol": "*",
@@ -221,6 +226,7 @@
             "name": "Port3389",
             "type": "Microsoft.Network/networkSecurityGroups/securityRules",
             "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "description": "Port 3389",
                 "protocol": "*",
