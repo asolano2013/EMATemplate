@@ -58,6 +58,7 @@
             "storageAccountType": "Standard_LRS",
             "diskSizeGB": 1023
         },
+        "imageOffer": "SQL2016SP1-WS2016",
         "addressPrefix": "10.0.0.0/16",
         "subnetName": "Subnet",
         "virtualNetworkName": "MyVNET",
@@ -209,6 +210,7 @@
                     },
                     "imageReference":{
                         "publisher": "MicrosoftSQLServer",
+                        "offer": "[variables('imageOffer')]",
                         "sku": "[variables('sqlSku')]",
                         "version": "latest"
                     },
