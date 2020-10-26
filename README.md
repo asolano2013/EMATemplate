@@ -11,7 +11,7 @@ This template will create a Virtual Machine in Microsoft Azure. It will automati
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fasolano2013%2FEMATemplate%2Fmain%2Ftemplate.json)
 
 
-< For 1000+ endpoints:
+> For 1000+ endpoints:
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fasolano2013%2FEMATemplate%2Fmain%2Ftemplate.json)
 
