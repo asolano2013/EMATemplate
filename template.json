@@ -49,8 +49,8 @@
         "publicIpAddressName": "[concat(parameters('vmName'), '-publicip-', uniqueString(parameters('vmName')))]",
         "publicIpAddressSku": "Basic",
         "sqlSku": "Standard",
-        "sqlDataDisksCount": "1",
-        "sqllogDisksCount": "1",
+        "sqlDataDisksCount": 1,
+        "sqllogDisksCount": 1,
         "dataDisks": {
             "createOption": "empty",
             "caching": "ReadOnly",
