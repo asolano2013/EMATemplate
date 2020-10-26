@@ -48,6 +48,16 @@
         "nicName": "myVMNic",
         "publicIpAddressName": "[concat(parameters('vmName'), '-publicip-', uniqueString(parameters('vmName')))]",
         "publicIpAddressSku": "Basic",
+        "sqlSku": "Standard",
+        "sqlDataDisksCount": "1",
+        "sqllogDisksCount": "1",
+        "dataDisks": {
+            "createOption": "empty",
+            "caching": "ReadOnly",
+            "writeAcceleratorEnabled": false,
+            "storageAccountType": "Standard_LRS",
+            "diskSizeGB": 1023
+        },
         "addressPrefix": "10.0.0.0/16",
         "subnetName": "Subnet",
         "virtualNetworkName": "MyVNET",
@@ -176,6 +186,64 @@
                         }
                     }
                 ]
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-07-01",
+            "name": "[parameters('vmName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('vmSize')]"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "createOption": "FromImage",
+                        "managedDisk": {
+                            "storageAccountType": "Standard_LRS"
+                        }
+                    },
+                    "imageReference":{
+                        "publisher": "MicrosoftSQLServer",
+                        "sku": "[variables('sqlSku')]",
+                        "version": "latest"
+                    },
+                    "copy": [
+                        {
+                            "name": "dataDisks",
+                            "count": "[add(variables('sqlDataDisksCount'), variables('sqlLogDisksCount'))]",
+                            "input": {
+                                "lun": "[copyIndex('dataDisks')]",
+                                "createOption": "[variables('dataDisks').createOption]",
+                                "caching": "[if(greaterOrEquals(copyIndex('dataDisks'), variables('sqlDataDisksCount')), 'None', variables('dataDisks').caching)]",
+                                "writeAcceleratorEnabled": "[variables('dataDisks').diskSizeGB]",
+                                "managedDisk": {
+                                    "storageAccountType": "[variables('dataDisks').storageAccountType]"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('vmName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "windowsConfiguration": {
+                        "enableAutomaticUpdates": true,
+                        "provisionVMAgent": true
+                    }
+                }
             }
         },
         {
