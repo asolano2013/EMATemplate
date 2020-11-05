@@ -210,23 +210,15 @@
                     },
                     "imageReference":{
                         "publisher": "MicrosoftSQLServer",
-                        "offer": "[variables('imageOffer')]",
-                        "sku": "[variables('sqlSku')]",
+                        "offer": "WindowsServer",
+                        "sku": "[parameters('OSVersion')]",
                         "version": "latest"
                     },
-                    "copy": [
+                    "dataDisks": [
                         {
-                            "name": "dataDisks",
-                            "count": "[add(variables('sqlDataDisksCount'), variables('sqlLogDisksCount'))]",
-                            "input": {
-                                "lun": "[copyIndex('dataDisks')]",
-                                "createOption": "[variables('dataDisks').createOption]",
-                                "caching": "[if(greaterOrEquals(copyIndex('dataDisks'), variables('sqlDataDisksCount')), 'None', variables('dataDisks').caching)]",
-                                "writeAcceleratorEnabled": "[variables('dataDisks').diskSizeGB]",
-                                "managedDisk": {
-                                    "storageAccountType": "[variables('dataDisks').storageAccountType]"
-                                }
-                            }
+                            "diskSizeGB": 1023,
+                            "lun": 0,
+                            "createOption": "Empty"
                         }
                     ]
                 },
