@@ -52,7 +52,7 @@
         "sqlDataDisksCount": 1,
         "sqllogDisksCount": 1,
         "dataDisks": {
-            "createOption": "FromImage",
+            "createOption": "empty",
             "caching": "ReadOnly",
             "writeAcceleratorEnabled": false,
             "storageAccountType": "Standard_LRS",
@@ -63,37 +63,44 @@
         "subnetName": "Subnet",
         "virtualNetworkName": "MyVNET",
         "subnetRef": "[resourceId('Microsoft.Network/VirtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
-        "networkSecurityGroupName": "default-NSG"
+        "networkSecurityGroupName": "default-NSG",
+        "dataPath": "F:\\SQLData",
+        "diskConfigurationType": "NEW",
+        "storageWorkloadType": "General",
+        "dataDisksLUNs": "[array(range(0 ,variables('sqlDataDisksCount')))]",
+        "logDisksLUNs": "[array(range(variables('sqlDataDisksCount'), variables('sqlLogDisksCount')))]",
+        "logPath": "G:\\SQLLog",
+        "tempDbPath": "D:\\SQLTemp"
     },
     "resources": [
-        {
-            "name": "[parameters('vmName')]",
-            "type": "Microsoft.Sql/servers",
-            "apiVersion": "2014-04-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "[parameters('vmName')]"
-            },
-            "properties": {
-                "administratorLogin": "[parameters('adminUsername')]",
-                "administratorLoginPassword": "[parameters('adminPassword')]"
-            },
-            "resources": [
-                {
-                    "type": "firewallRules",
-                    "apiVersion": "2014-04-01",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Sql/servers', parameters('vmName'))]"
-                    ],
-                    "location": "[resourceGroup().location]",
-                    "name": "AllowAllWindowsAzureIps",
-                    "properties": {
-                        "startIpAddress": "0.0.0.0",
-                        "endIpAddress": "0.0.0.0"
-                    }
-                }
-            ]
-        },
+        // {
+        //     "name": "[parameters('vmName')]",
+        //     "type": "Microsoft.Sql/servers",
+        //     "apiVersion": "2014-04-01",
+        //     "location": "[resourceGroup().location]",
+        //     "tags": {
+        //         "displayName": "[parameters('vmName')]"
+        //     },
+        //     "properties": {
+        //         "administratorLogin": "[parameters('adminUsername')]",
+        //         "administratorLoginPassword": "[parameters('adminPassword')]"
+        //     },
+        //     "resources": [
+        //         {
+        //             "type": "firewallRules",
+        //             "apiVersion": "2014-04-01",
+        //             "dependsOn": [
+        //                 "[resourceId('Microsoft.Sql/servers', parameters('vmName'))]"
+        //             ],
+        //             "location": "[resourceGroup().location]",
+        //             "name": "AllowAllWindowsAzureIps",
+        //             "properties": {
+        //                 "startIpAddress": "0.0.0.0",
+        //                 "endIpAddress": "0.0.0.0"
+        //             }
+        //         }
+        //     ]
+        // },
         {
             "name": "[variables('nicName')]",
             "type": "Microsoft.Network/networkInterfaces",
@@ -191,18 +198,27 @@
                         }
                     },
                     "imageReference":{
-                        "publisher": "MicrosoftWindowsServer",
-                        "offer": "WindowsServer",
-                        "sku": "[parameters('OSVersion')]",
+                        "publisher": "MicrosoftSQLServer",
+                        "offer": "[variables('imageOffer')]",
+                        "sku": "[variables('sqlSku')]",
                         "version": "latest"
                     },
-                    "dataDisks": [
-                        {
-                            "diskSizeGB": 1023,
-                            "lun": 0,
-                            "createOption": "Empty"
+                     "copy": [
+                    {
+                    "name": "dataDisks",
+                    "count": "[add(variables('sqlDataDisksCount'), variables('sqlLogDisksCount'))]",
+                    "input": {
+                        "lun": "[copyIndex('dataDisks')]",
+                        "createOption": "[variables('dataDisks').createOption]",
+                        "caching": "[if(greaterOrEquals(copyIndex('dataDisks'), variables('sqlDataDisksCount')) ,'None', variables('dataDisks').caching )]",
+                        "writeAcceleratorEnabled": "[variables('dataDisks').writeAcceleratorEnabled]",
+                        "diskSizeGB": "[variables('dataDisks').diskSizeGB]",
+                        "managedDisk": {
+                        "storageAccountType": "[variables('dataDisks').storageAccountType]"
                         }
-                    ]
+                    }
+                    }
+                ]
                 },
                 "networkProfile": {
                     "networkInterfaces": [
@@ -221,6 +237,35 @@
                     }
                 }
             }
+        },
+        {
+        "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
+        "apiVersion": "2017-03-01-preview",
+        "name": "[parameters('vmName')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+        ],
+        "properties": {
+            "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
+            "sqlManagement": "Full",
+            "SqlServerLicenseType": "PAYG",
+            "StorageConfigurationSettings": {
+            "DiskConfigurationType": "[variables('diskConfigurationType')]",
+            "StorageWorkloadType": "[variables('storageWorkloadType')]",
+            "SQLDataSettings": {
+                "LUNs": "[variables('dataDisksLUNs')]",
+                "DefaultFilePath": "[variables('dataPath')]"
+            },
+            "SQLLogSettings": {
+                "Luns": "[variables('logDisksLUNs')]",
+                "DefaultFilePath": "[variables('logPath')]"
+            },
+            "SQLTempDbSettings": {
+                "DefaultFilePath": "[variables('tempDbPath')]"
+            }
+            }
+        }
         },
         {
             "name": "[variables('networkSecurityGroupName')]",
