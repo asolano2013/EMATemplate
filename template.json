@@ -95,24 +95,6 @@
             ]
         },
         {
-            "name": "[concat(parameters('vmName'), '/', parameters('sqlDBName'))]",
-            "type": "Microsoft.Sql/servers/databases",
-            "apiVersion": "2014-04-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "[parameters('sqlDBName')]"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('vmName'))]"
-            ],
-            "properties": {
-                "collation": "SQL_Latin1_General_CP1_CI_AS",
-                "edition": "Basic",
-                "maxSizeBytes": "1073741824",
-                "requestedServiceObjectiveName": "Basic"
-            }
-        },
-        {
             "name": "[variables('nicName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2019-11-01",
