@@ -52,7 +52,7 @@
         "sqlDataDisksCount": 1,
         "sqllogDisksCount": 1,
         "dataDisks": {
-            "createOption": "empty",
+            "createOption": "FromImage",
             "caching": "ReadOnly",
             "writeAcceleratorEnabled": false,
             "storageAccountType": "Standard_LRS",
