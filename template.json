@@ -4,7 +4,6 @@
     "parameters": {
         "vmName": {
             "type": "string",
-            "defaultValue": "ema-vm",
             "metadata": {
                 "description": "Name of the virtual machine."
             }
@@ -21,32 +20,18 @@
                 "description": "Password for the virtual machine."
             }
         },
-        "OSVersion": {
-            "type": "string",
-            "defaultValue": "2016-Datacenter",
-            "metadata": {
-                "description": "The windows version for the VM. This will pick a fully patched image of this given windows version."
-            }
-        },
         "vmSize": {
             "type": "string",
             "defaultValue": "Standard_D2_v3",
             "metadata": {
                 "description": "Size of the virtual machine."
             }
-        },
-        "sqlDBName": {
-            "type": "string",
-            "defaultValue": "emadb",
-            "metadata": {
-                "description": "The name of the SQL Database"
-            }
         }
     },
     "functions": [],
     "variables": {
         "nicName": "myVMNic",
-        "publicIpAddressName": "[concat(parameters('vmName'), '-publicip-', uniqueString(parameters('vmName')))]",
+        "publicIpAddressName": "[concat(parameters('vmName'), '-', uniqueString(resourceGroup().id))]",
         "publicIpAddressSku": "Basic",
         "sqlSku": "Standard",
         "sqlDataDisksCount": 1,
@@ -73,34 +58,7 @@
         "tempDbPath": "D:\\SQLTemp"
     },
     "resources": [
-        // {
-        //     "name": "[parameters('vmName')]",
-        //     "type": "Microsoft.Sql/servers",
-        //     "apiVersion": "2014-04-01",
-        //     "location": "[resourceGroup().location]",
-        //     "tags": {
-        //         "displayName": "[parameters('vmName')]"
-        //     },
-        //     "properties": {
-        //         "administratorLogin": "[parameters('adminUsername')]",
-        //         "administratorLoginPassword": "[parameters('adminPassword')]"
-        //     },
-        //     "resources": [
-        //         {
-        //             "type": "firewallRules",
-        //             "apiVersion": "2014-04-01",
-        //             "dependsOn": [
-        //                 "[resourceId('Microsoft.Sql/servers', parameters('vmName'))]"
-        //             ],
-        //             "location": "[resourceGroup().location]",
-        //             "name": "AllowAllWindowsAzureIps",
-        //             "properties": {
-        //                 "startIpAddress": "0.0.0.0",
-        //                 "endIpAddress": "0.0.0.0"
-        //             }
-        //         }
-        //     ]
-        // },
+        
         {
             "name": "[variables('nicName')]",
             "type": "Microsoft.Network/networkInterfaces",
@@ -379,7 +337,7 @@
     "outputs": {
         "hostname": {
             "type": "string",
-            "value": "[reference(variables('publicIpAddressName')).dnsSettings.fqdn]"
+            "value": "[reference(variables('publicIpAddressName')).vprodemo.com]"
         }
     }
 }
