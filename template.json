@@ -22,7 +22,7 @@
         },
         "vmSize": {
             "type": "string",
-            "defaultValue": "Standard_D2_v3",
+            "defaultValue": "Standard_D4s_v3",
             "metadata": {
                 "description": "Size of the virtual machine."
             }
@@ -40,10 +40,10 @@
             "createOption": "empty",
             "caching": "ReadOnly",
             "writeAcceleratorEnabled": false,
-            "storageAccountType": "Standard_LRS",
-            "diskSizeGB": 1023
+            "storageAccountType": "StandardSSD_LRS",
+            "diskSizeGB": 1024
         },
-        "imageOffer": "SQL2016SP1-WS2016",
+        "imageOffer": "SQL2016SP2-WS2016",
         "addressPrefix": "10.0.0.0/16",
         "subnetName": "Subnet",
         "virtualNetworkName": "MyVNET",
@@ -337,7 +337,7 @@
     "outputs": {
         "hostname": {
             "type": "string",
-            "value": "[reference(variables('publicIpAddressName')).vprodemo.com]"
+            "value": "[reference(variables('publicIpAddressName'))]"
         }
     }
 }
