@@ -337,7 +337,7 @@
     "outputs": {
         "hostname": {
             "type": "string",
-            "value": "[reference(variables('publicIpAddressName'))]"
+            "value": "[reference(variables('publicIpAddressName')).dnsSettings.fqdn]"
         }
     }
 }
