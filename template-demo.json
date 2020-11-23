@@ -332,32 +332,6 @@
                     }
                 ]
             }
-        },
-        {
-            "name": "[concat(parameters('vmName'), '/EMAInstall')]",
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "apiVersion": "2019-07-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "EMAInstall script for Windows VM"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-            ],
-            "properties": {
-                "publisher": "Microsoft.Compute",
-                "type": "CustomScriptExtension",
-                "typeHandlerVersion": "1.10",
-                "autoUpgradeMinorVersion": true,
-                "settings": {
-                    "fileUris": [
-                        "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/Download_Install_EMA.ps1"
-                    ]
-                },
-                "protectedSettings": {
-                    "commandToExecute": "powershell -ExecutionPolicy Bypass -file Download_Install_EMA.ps1"
-                }
-            }
         }
     ],
     "outputs": {
