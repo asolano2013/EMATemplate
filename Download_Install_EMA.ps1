@@ -6,6 +6,13 @@
 #                                        #
 ##########################################
 
+# Create C:\Temp path if it doesn't exist
+
+$path = "C:\Temp"
+If(!(test-path $path)){
+    New-Item -ItemType Directory -Force -Path $path
+}
+
 #Download EMA Install file from github
 
 $url = "https://github.com/asolano2013/EMATemplate/raw/main/Ema_Install_Package_1.3.3.1.exe"
@@ -16,6 +23,7 @@ $start_time = Get-Date
 $wc = New-Object System.Net.WebClient
 $wc.DownloadFile($url, $output)
 Write-Output "Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)"
+
 
 #Extract EMA Install file
 
