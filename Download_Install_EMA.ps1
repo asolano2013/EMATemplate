@@ -33,5 +33,5 @@ add-type -AssemblyName System.IO.Compression.FileSystem
 #Run EMA Installer exe
 
 $args = @("FULLINSTALL","--host=<fqdn>","--dbserver=<dbserver>","--db=<dbname>","--guser=<guser_email>","--gpass=<gpassword>","--verbose","--console","--accepteula")
-Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -Verb RunAs -ArgumentList $args
+Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -Verb RunAs -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall"
 
