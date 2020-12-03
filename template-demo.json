@@ -329,6 +329,20 @@
                             "priority": 200,
                             "direction": "Inbound"
                         }
+                    },
+                    {
+                        "name": "Port8084",
+                        "properties": {
+                            "description": "Web Redirection",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "8084",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
                     }
                 ]
             }
