@@ -6,11 +6,11 @@
 #                                        #
 ##########################################
 
-$host = $Args[0]
+$hostname = $Args[0]
 $dbserver = $Args[1]
-$dbname = $Args[2]
-$guser = $Args[3]
-$gpass = $Args[4]
+$dbname = "master"
+$guser = $Args[2]
+$gpass = $Args[3]
 
 # Create C:\Temp path if it doesn't exist
 
@@ -36,6 +36,6 @@ add-type -AssemblyName System.IO.Compression.FileSystem
 
 #Run EMA Installer exe
 
-$args = @("FULLINSTALL","--host=$host","--dbserver=$dbserver","--db=$dbname","--guser=$guser","--gpass=$gpass","--verbose","--console","--accepteula")
+$args = @("FULLINSTALL","--host=$hostname","--dbserver=$dbserver","--db=$dbname","--guser=$guser","--gpass=$gpass","--verbose","--console","--accepteula")
 Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -Verb RunAs -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall"
 
