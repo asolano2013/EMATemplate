@@ -26,6 +26,19 @@
             "metadata": {
                 "description": "Size of the virtual machine."
             }
+        },
+        "gUser": {
+            "type": "string",
+            "defaultValue": "email@domain.com",
+            "metadata": {
+                "description": "Email for InteL EMA global user"
+            }
+        },
+        "gPassword": {
+            "type": "secureString",
+            "metadata": {
+                "description": "Password for Intel EMA global account"
+            }
         }
     },
     "functions": [],
@@ -55,7 +68,8 @@
         "dataDisksLUNs": "[array(range(0 ,variables('sqlDataDisksCount')))]",
         "logDisksLUNs": "[array(range(variables('sqlDataDisksCount'), variables('sqlLogDisksCount')))]",
         "logPath": "G:\\SQLLog",
-        "tempDbPath": "D:\\SQLTemp"
+        "tempDbPath": "D:\\SQLTemp",
+        "scriptFile": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/Download_Install_EMA.ps1"
     },
     "resources": [
         
@@ -333,7 +347,7 @@
                     {
                         "name": "Port8084",
                         "properties": {
-                            "description": "Web Redirection",
+                            "description": "Websocket",
                             "protocol": "Tcp",
                             "sourcePortRange": "*",
                             "destinationPortRange": "8084",
@@ -345,6 +359,32 @@
                         }
                     }
                 ]
+            }
+        },
+        {
+            "name": "[concat(parameters('vmName'),'/CustomScriptExtension')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-07-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "customScript1 for Windows VM"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.10",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "[variables('scriptFile')]"
+                    ]
+                },
+                "protectedSettings": {
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Bypass -file Download_Install_EMA.ps1', reference(variables('publicIpAddressName')).dnsSettings.fqdn, parameters('vmName'), parameters('gUser'), parameters('gPassword'))]"
+                }
             }
         }
     ],
