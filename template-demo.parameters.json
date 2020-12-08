@@ -11,10 +11,10 @@
     "adminPassword": {
       "value": "GEN-PASSWORD"
     },
-    "gUser":{
+    "globalAccountUser":{
       "value": "GEN-EMAIL"
     },
-    "gPassword":{
+    "globalAccountPassword":{
       "value": "G-PASSWORD"
     }
   }
