@@ -27,14 +27,14 @@
                 "description": "Size of the virtual machine."
             }
         },
-        "gUser": {
+        "globalAccountUser": {
             "type": "string",
             "defaultValue": "email@domain.com",
             "metadata": {
                 "description": "Email for InteL EMA global user"
             }
         },
-        "gPassword": {
+        "globalAccountPassword": {
             "type": "secureString",
             "metadata": {
                 "description": "Password for Intel EMA global account"
@@ -383,7 +383,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -ExecutionPolicy Bypass -file Download_Install_EMA.ps1', reference(variables('publicIpAddressName')).dnsSettings.fqdn, parameters('vmName'), parameters('gUser'), parameters('gPassword'))]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Bypass -file Download_Install_EMA.ps1', reference(variables('publicIpAddressName')).dnsSettings.fqdn, parameters('vmName'), parameters('globalAccountUser'), parameters('globalAccountPassword'))]"
                 }
             }
         }
