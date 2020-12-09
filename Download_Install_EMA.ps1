@@ -6,11 +6,11 @@
 #                                        #
 ##########################################
 
-$hostname = $Args[0]
-$dbserver = $Args[1]
+$hostname = $Args[1]
+$dbserver = $Args[2]
 $dbname = "master"
-$guser = $Args[2]
-$gpass = $Args[3]
+$guser = $Args[3]
+$gpass = $Args[4]
 
 # Create C:\Temp path if it doesn't exist
 
