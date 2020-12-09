@@ -69,7 +69,8 @@
         "logDisksLUNs": "[array(range(variables('sqlDataDisksCount'), variables('sqlLogDisksCount')))]",
         "logPath": "G:\\SQLLog",
         "tempDbPath": "D:\\SQLTemp",
-        "scriptFile": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/Download_Install_EMA.ps1"
+        "scriptFile": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/Download_Install_EMA.ps1",
+        "fileName": "Download_Install_EMA.ps1"
     },
     "resources": [
         
@@ -383,7 +384,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -ExecutionPolicy Bypass -file ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, parameters('vmName'), parameters('globalAccountUser'), parameters('globalAccountPassword'))]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Bypass -file ', variables('fileName'), reference(variables('publicIpAddressName')).dnsSettings.fqdn, parameters('vmName'), parameters('globalAccountUser'), parameters('globalAccountPassword'))]"
                 }
             }
         }
