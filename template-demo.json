@@ -383,7 +383,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -ExecutionPolicy Bypass -file Download_Install_EMA.ps1', reference(variables('publicIpAddressName')).dnsSettings.fqdn, parameters('vmName'), parameters('globalAccountUser'), parameters('globalAccountPassword'))]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Bypass -file ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, parameters('vmName'), parameters('globalAccountUser'), parameters('globalAccountPassword'))]"
                 }
             }
         }
