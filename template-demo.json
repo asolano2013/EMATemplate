@@ -384,7 +384,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -ExecutionPolicy Bypass -file ', variables('fileName'), reference(variables('publicIpAddressName')).dnsSettings.fqdn, parameters('vmName'), parameters('globalAccountUser'), parameters('globalAccountPassword'))]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Bypass -file ', variables('fileName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalAccountUser'), ' ', parameters('globalAccountPassword'))]"
                 }
             }
         }
