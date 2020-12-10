@@ -380,11 +380,11 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/Download_Install_EMA.ps1"
+                        "[variables('scriptFile')]"
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('fileName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalAccountUser'), ' ', parameters('globalAccountPassword'))]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -verb RunAs -file ', variables('fileName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalAccountUser'), ' ', parameters('globalAccountPassword'))]"
 
                 }
             }
