@@ -12,7 +12,7 @@
       "value": "GEN-PASSWORD"
     },
     "globalAccountUser":{
-      "value": "GEN-EMAIL"
+      "value": "GEN-UNIQUE"
     },
     "globalAccountPassword":{
       "value": "GEN-PASSWORD"
