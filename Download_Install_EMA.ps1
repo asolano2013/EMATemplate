@@ -8,7 +8,7 @@
 
 $hostname = $args[1]
 $dbserver = $args[2]
-$dbname = "master"
+$dbname = "emadb"
 $guser = $args[3]
 $gpass = $args[4]
 
