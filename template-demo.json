@@ -36,6 +36,7 @@
         },
         "globalAccountPassword": {
             "type": "secureString",
+            "minLength": 8,
             "metadata": {
                 "description": "Password for Intel EMA global account"
             }
