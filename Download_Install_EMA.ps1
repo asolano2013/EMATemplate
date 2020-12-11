@@ -6,21 +6,11 @@
 #                                        #
 ##########################################
 
-$username = $args[0]
-$password = $args[1]
-$hostname = $args[2]
-$dbserver = $args[3]
+$hostname = $args[1]
+$dbserver = $args[2]
 $dbname = "emadb"
-$guser = $args[4]
-$gpass = $args[5]
-
-#LOGIN to VM
-
-$RegPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
-Set-ItemProperty $RegPath "AutoAdminLogon" -Value "1" -type String 
-Set-ItemProperty $RegPath "DefaultUsername" -Value "$username" -type String 
-Set-ItemProperty $RegPath "DefaultPassword" -Value "$password" -type String
-
+$guser = $args[3]
+$gpass = $args[4]
 
 # Create C:\Temp path if it doesn't exist
 
