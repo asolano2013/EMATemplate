@@ -385,7 +385,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted  -file ', 'Download_Install_EMA.ps1', ' ', 'emavm-gtzxs6rqkgtkw.westus2.cloudapp.azure.com', ' ', 'emavm', ' ', 'adriana.solano@intel.com', ' ', 'P@ssw0rd')]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted  -File ', variables('fileName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalAccountUser'), ' ', parameters('globalAccountPassword'))]"
 
                 }
             }
