@@ -206,6 +206,14 @@
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]",
                     "windowsConfiguration": {
+                        "additionalUnattendContent": [
+                            {
+                                "passName": "OobeSystem",
+                                "componentName": "Microsoft-Windows-Shell-Setup",
+                                "settingName": "AutoLogon",
+                                "content": "[concat('<AutoLogon><Password><Value>', parameters('adminPassword'), '</Value><PlainText>true</PlainText></Password><Enabled>true</Enabled><Username>', parameters('adminUsername'), '</Username></AutoLogon>')]"
+                            }
+                        ],
                         "enableAutomaticUpdates": true,
                         "provisionVMAgent": true
                     }
@@ -385,7 +393,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('fileName'), ' ', parameters('adminUsername'), ' ', parameters('adminPassword'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalAccountUser'), ' ', parameters('globalAccountPassword'))]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('fileName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalAccountUser'), ' ', parameters('globalAccountPassword'))]"
 
                 }
             }
