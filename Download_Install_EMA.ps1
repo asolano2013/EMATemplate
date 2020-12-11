@@ -6,11 +6,11 @@
 #                                        #
 ##########################################
 
-$hostname = $args[1]
-$dbserver = $args[2]
+$hostname = $args[0]
+$dbserver = $args[1]
 $dbname = "emadb"
-$guser = $args[3]
-$gpass = $args[4]
+$guser = $args[2]
+$gpass = $args[3]
 
 # Create C:\Temp path if it doesn't exist
 
