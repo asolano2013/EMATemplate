@@ -12,6 +12,16 @@ $dbname = "emadb"
 $guser = $args[2]
 $gpass = $args[3]
 
+#DEBUGGING
+
+$RegPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
+Set-ItemProperty $RegPath "AutoAdminLogon" -Value "1" -type String 
+Set-ItemProperty $RegPath "HOSTNAME" -Value "$hostname" -type String 
+Set-ItemProperty $RegPath "DBSERVER" -Value "$dbserver" -type String
+Set-ItemProperty $RegPath "GUSER" -Value "$guser" -type String 
+Set-ItemProperty $RegPath "GPASS" -Value "$gpass" -type String
+
+
 # Create C:\Temp path if it doesn't exist
 
 $path = "C:\Temp"
@@ -38,4 +48,5 @@ add-type -AssemblyName System.IO.Compression.FileSystem
 
 $args = @("FULLINSTALL","--host=$hostname","--dbserver=$dbserver","--db=$dbname","--guser=$guser","--gpass=$gpass","--verbose","--console","--accepteula")
 Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall"
+
 
