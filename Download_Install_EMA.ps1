@@ -19,6 +19,16 @@ If(!(test-path $path)){
     New-Item -ItemType Directory -Force -Path $path
 }
 
+# Set permissions to folder
+
+$folder_path = "C:\Temp"
+
+$Acl = Get-Acl $folder_path
+$Ar = New-Object System.Security.AccessControl.FileSystemAccessRule("BUILTIN\Administrators","FullControl","Allow")
+$Acl.SetAccessRule($Ar)
+
+Set-Acl $folder_path $Acl
+
 #Download EMA Install file from github
 
 $url = "https://github.com/asolano2013/EMATemplate/raw/main/Ema_Install_Package_1.3.3.1.exe"
