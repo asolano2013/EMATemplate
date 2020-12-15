@@ -385,7 +385,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -verb RunAs -ExecutionPolicy Unrestricted -File ', variables('fileName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalAccountUser'), ' ', parameters('globalAccountPassword'))]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File Download_Install_EMA.ps1 -user ', parameters('adminUsername'),' -password ' , parameters('adminPassword'), reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalAccountUser'), ' ', parameters('globalAccountPassword'))]"
 
                 }
             }
