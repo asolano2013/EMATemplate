@@ -1,35 +1,38 @@
-##########################################
-#                                        #
-#  Author: Adriana Solano                #
-#  Company: Intel Corp                   #
-#  Date: 11/13/2020                      #
-#                                        #
-##########################################
+###################################################################################################
+#                                        
+#  Author: Adriana Solano                
+#  Company: Intel Corp                   
+#  Date: 11/13/2020                      
+#                                        
+###################################################################################################
+#
+#  Copyright 2021 Intel Corporation.
+#
+#  This software and the related documents are Intel copyrighted materials, and your use of them is 
+#  governed by the express license under which they were provided to you ("License"). Unless the 
+#  License provides otherwise, you may not use, modify, copy, publish, distribute, disclose or 
+#  transmit this software or the related documents without Intel's prior written permission.
+#
+#  This software and the related documents are provided as is, with no express or implied warranties, 
+#  other than those that are expressly stated in the License.                    
+#                                        
+###################################################################################################
 
-$hostname = $args[0]
-$dbserver = $args[1]
-$dbname = "emadb"
-$guser = $args[2]
-$gpass = $args[3]
+$hostname = #Add the name of your hostname/virtual machine
+$dbserver = #Add the Database server name. The same you use when created the VM.
+$dbname = #Add the name of your EMA Database.
+$guser = #Add the user name you used when creating your VM instance.
+$gpass = #Add the password you used when creating your VM instance.
 
-# Create C:\Temp path if it doesn't exist
+# Verify if temp path exists. If it doesn't exist, create C:\Temp path
 
 $path = "C:\Temp"
 If(!(test-path $path)){
     New-Item -ItemType Directory -Force -Path $path
+    Write-Host "Temp folder has been created"
 }
 
-# Set permissions to folder
-
-$folder_path = "C:\Temp"
-
-$Acl = Get-Acl $folder_path
-$Ar = New-Object System.Security.AccessControl.FileSystemAccessRule("BUILTIN\Administrators","FullControl","Allow")
-$Acl.SetAccessRule($Ar)
-
-Set-Acl $folder_path $Acl
-
-#Download EMA Install file from github
+# Download EMA Install file from GitLab
 
 $url = "https://github.com/asolano2013/EMATemplate/raw/main/Ema_Install_Package_1.3.3.1.exe"
 $output = "C:\Temp\EMAInstall.zip"
@@ -38,13 +41,12 @@ $output = "C:\Temp\EMAInstall.zip"
 $wc = New-Object System.Net.WebClient
 $wc.DownloadFile($url, $output)
 
-
-#Extract EMA Install file
+# Extract EMA Install file
 
 add-type -AssemblyName System.IO.Compression.FileSystem
 [system.io.compression.zipFile]::ExtractToDirectory('C:\Temp\EMAInstall.zip','C:\Temp\EMAInstall')
 
-#Run EMA Installer exe
+# Run EMA Installer.exe
 
 $args = @("FULLINSTALL","--host=$hostname","--dbserver=$dbserver","--db=$dbname","--guser=$guser","--gpass=$gpass","--verbose","--console","--accepteula")
 Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall"
