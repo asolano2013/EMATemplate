@@ -26,20 +26,6 @@
             "metadata": {
                 "description": "Size of the virtual machine."
             }
-        },
-        "globalAccountUser": {
-            "type": "string",
-            "defaultValue": "email@domain.com",
-            "metadata": {
-                "description": "Email for InteL EMA global user"
-            }
-        },
-        "globalAccountPassword": {
-            "type": "secureString",
-            "minLength": 8,
-            "metadata": {
-                "description": "Password for Intel EMA global account"
-            }
         }
     },
     "functions": [],
