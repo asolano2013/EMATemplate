@@ -18,10 +18,10 @@
 #                                        
 ###################################################################################################
 
-$hostname = #Add the name of your hostname/virtual machine
+$hostname = #Add the fully quialified domain name of your hostname/virtual machine.
 $dbserver = #Add the Database server name. The same you use when created the VM.
 $dbname = #Add the name of your EMA Database.
-$guser = #Add the a Global Username for your EMA instance.
+$guser = #Add a valid email address for the a Global Username for your EMA instance. 
 $gpass = #Add the password for your global account linked to your EMA instance.
 
 # Verify if temp path exists. If it doesn't exist, create C:\Temp path
@@ -45,10 +45,14 @@ $wc.DownloadFile($url, $output)
 
 add-type -AssemblyName System.IO.Compression.FileSystem
 [system.io.compression.zipFile]::ExtractToDirectory('C:\Temp\EMAInstall.zip','C:\Temp\EMAInstall')
+Write-Host "Please wait for EMA install to start......"
 
 # Run EMA Installer.exe
 
+try{
 $args = @("FULLINSTALL","--host=$hostname","--dbserver=$dbserver","--db=$dbname","--guser=$guser","--gpass=$gpass","--verbose","--console","--accepteula")
 Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall"
-
+Write-Host "EMA install started...."
+}
+catch {Write-Host "An error ocurred! Please try again..."}
 
