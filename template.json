@@ -41,7 +41,7 @@
             "caching": "ReadOnly",
             "writeAcceleratorEnabled": false,
             "storageAccountType": "StandardSSD_LRS",
-            "diskSizeGB": 1024
+            "diskSizeGB": 128
         },
         "imageOffer": "SQL2016SP2-WS2016",
         "addressPrefix": "10.0.0.0/16",
