@@ -21,8 +21,8 @@
 $hostname = #Add the name of your hostname/virtual machine
 $dbserver = #Add the Database server name. The same you use when created the VM.
 $dbname = #Add the name of your EMA Database.
-$guser = #Add the user name you used when creating your VM instance.
-$gpass = #Add the password you used when creating your VM instance.
+$guser = #Add the a Global Username for your EMA instance.
+$gpass = #Add the password for your global account linked to your EMA instance.
 
 # Verify if temp path exists. If it doesn't exist, create C:\Temp path
 
