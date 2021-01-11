@@ -55,9 +55,7 @@
         "dataDisksLUNs": "[array(range(0 ,variables('sqlDataDisksCount')))]",
         "logDisksLUNs": "[array(range(variables('sqlDataDisksCount'), variables('sqlLogDisksCount')))]",
         "logPath": "G:\\SQLLog",
-        "tempDbPath": "D:\\SQLTemp",
-        "scriptFile": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/Download_Install_EMA.ps1",
-        "fileName": "Download_Install_EMA.ps1"
+        "tempDbPath": "D:\\SQLTemp"
     },
     "resources": [
         
