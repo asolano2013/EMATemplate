@@ -363,7 +363,7 @@
             }
         },
         {
-            "name": "WindowsVM1/EMAInstall",
+            "name": "[concat(parameters('vmName'),'/EMAInstallscript')]",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2019-07-01",
             "location": "[resourceGroup().location]",
@@ -371,7 +371,7 @@
                 "displayName": "EMAInstall script for Windows VM"
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachines', 'windowsVM1')]"
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
             ],
             "properties": {
                 "publisher": "Microsoft.Compute",
