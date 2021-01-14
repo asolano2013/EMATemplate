@@ -19,3 +19,7 @@ The D v3 virtual machines are hyper-threaded general-purpose VMs based on the 2.
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fasolano2013%2FEMATemplate%2Fmain%2Ftemplate.json)
 
+> Test
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)]
+(https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fasolano2013%2FEMATemplate%2Fmain%2Fematemplate.json)
+
