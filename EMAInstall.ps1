@@ -21,11 +21,11 @@
 #                                        
 ###################################################################################################
 
-$hostname = $Args[0]
-$dbserver = $Args[1]
+$hostname = $args[0]
+$dbserver = $args[1]
 $dbname = "emadb"
-$guser =  $Args[2]
-$gpass =  $Args[3]
+$guser =  $args[2]
+$gpass =  $args[3]
 
 # Verify if temp path exists. If it doesn't exist, create C:\Temp path
 
