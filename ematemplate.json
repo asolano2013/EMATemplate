@@ -62,7 +62,7 @@
         "virtualNetworkName": "MyVNET",
         "subnetRef": "[resourceId('Microsoft.Network/VirtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
         "networkSecurityGroupName": "default-NSG",
-        "filename": "https://github.com/asolano2013/EMATemplate/blob/main/EMAInstall.ps1",
+        "filename": "https://gitlab.devtools.intel.com/adrianas/ema-easy-set-up/-/blob/master/EMAInstall.ps1",
         "scriptName": "EMAInstall.ps1"
         // "dataPath": "F:\\SQLData",
         // "diskConfigurationType": "NEW",
@@ -384,7 +384,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestrcited -file ', variables('scriptName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
                 }
             }
         }
