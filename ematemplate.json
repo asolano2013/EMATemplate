@@ -32,7 +32,6 @@
             "metadata": {
                 "description": "Username for Global account"
             }
-
         },
         "globalPassword": {
             "type": "securestring",
