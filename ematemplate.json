@@ -29,8 +29,9 @@
         },
         "globalUsername": {
             "type": "string",
+            "defaultValue": "youremail@domain.com"
             "metadata": {
-                "description": "Username for Global account"
+                "description": "Please enter email for Global account"
             }
         },
         "globalPassword": {
