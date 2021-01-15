@@ -61,7 +61,7 @@
         "virtualNetworkName": "MyVNET",
         "subnetRef": "[resourceId('Microsoft.Network/VirtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
         "networkSecurityGroupName": "default-NSG",
-        "filename": "https://github.com/asolano2013/EMATemplate/blob/main/EMAInstall.ps1",
+        "filename": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/EMAInstall.ps1",
         "scriptName": "EMAInstall.ps1"
         // "dataPath": "F:\\SQLData",
         // "diskConfigurationType": "NEW",
