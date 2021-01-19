@@ -49,18 +49,26 @@
                 "label": "Size of Virtual Machine",
                 "toolTip": "Size of the virtual machine.",
                 "osPlatform": "Windows",
-                "recommendedSizes": [
-                            "Standard_D2s_v3",
-                            "Standard_D4s_v3"
-                        ],
+                "defaultValue": "Standard_D2s_v3",
                 "constraints": {
+                    "allowedValues": [
+                        {
+                            "label": "Standard_D2s_v3",
+                            "value": "Standard_D2s_v3"
+                        },
+                        {
+                            "label": "Standard_D4s_v3",
+                            "value": "Standard_D4s_v3"
+                        }
+                    ],
                     "required": true
-                }
+                },
+                "visible": true
             },
              {
                 "name": "globalUsername",
                 "type": "Microsoft.Compute.UserNameTextBox",
-                "label": "Global Account Username",
+                "label": "Global Account email",
                 "toolTip": "Email for EMA global account",
                 "osPlatform": "Windows",
                 "constraints": {
@@ -71,7 +79,7 @@
                 "name": "globalPassword",
                 "type": "Microsoft.Common.PasswordBox",
                 "label": {
-                    "password": "Global account Password",
+                    "password": "Global Account password",
                     "confirmPassword": "Confirm password"
                 },
                 "toolTip": "Password for the EMA global account.",
