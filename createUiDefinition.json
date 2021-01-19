@@ -96,7 +96,7 @@
             "vmName": "[basics('vmName')]",
             "adminUsername": "[basics('adminUsername')]",
             "vmSize": "[basics('vmSize')]",
-            "globalUsername": "[basics('globalUsername')]",
+            "globalUsername": "[basics('globalUsername')]"
 
             //"publicIpName": "[steps('VirtualMachineConfig').publicIpAddress.name]",
             //"dnsLabelPrefix": "[steps('VirtualMachineConfig').publicIpAddress.domainNameLabel]",
