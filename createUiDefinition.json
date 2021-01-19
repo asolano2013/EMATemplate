@@ -67,7 +67,7 @@
             },
              {
                 "name": "globalUsername",
-                "type": "Microsoft.Compute.UserNameTextBox",
+                "type": "Microsoft.Compute.TextBox",
                 "label": "Global Account email",
                 "toolTip": "Email for EMA global account",
                 "defaultValue": "youremail@domain.com",
