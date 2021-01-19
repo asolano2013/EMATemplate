@@ -71,8 +71,8 @@
                 "label": "Global Account email",
                 "toolTip": "Email for EMA global account",
                 "defaultValue": "youremail@domain.com",
-                "osPlatform": "Windows",
                 "constraints": {
+                    "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{12,40}$",
                     "required": true
                 }
             },
