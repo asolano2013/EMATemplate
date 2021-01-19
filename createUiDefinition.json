@@ -104,8 +104,10 @@
             "location": "[location()]",
             "vmName": "[basics('vmName')]",
             "adminUsername": "[basics('adminUsername')]",
+            "adminPassword": "[basics('adminPassword')]",
             "vmSize": "[basics('vmSize')]",
-            "globalUsername": "[basics('globalUsername')]"
+            "globalUsername": "[basics('globalUsername')]",
+            "globalPassword": "[basics('globalPassword')]"
         }
     }
 }
