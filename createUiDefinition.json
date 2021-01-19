@@ -72,7 +72,7 @@
                 "toolTip": "Email for EMA global account",
                 "defaultValue": "youremail@domain.com",
                 "constraints": {
-                    "regex": "^[A-Z0-9._%+-]+@[A-Z0-9.-]$",
+                    "regex": "^[^@]+@[^@]+[^@]+$",
                     "required": true
                 }
             },
