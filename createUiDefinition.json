@@ -45,8 +45,8 @@
             },
             {
                 "name": "vmSize",
-                "type": "Microsoft.Compute.UserNameTextBox",
-                "label": "Username",
+                "type": "Microsoft.Common.DropDown",
+                "label": "Size of Virtual Machine",
                 "toolTip": "Size of the virtual machine.",
                 "osPlatform": "Windows",
                 "recommendedSizes": [
