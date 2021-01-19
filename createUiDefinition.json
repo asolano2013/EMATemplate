@@ -67,11 +67,14 @@
             },
              {
                 "name": "globalUsername",
-                "type": "Microsoft.Compute.TextBox",
+                "type": "Microsoft.Common.TextBox",
                 "label": "Global Account email",
                 "toolTip": "Email for EMA global account",
                 "defaultValue": "youremail@domain.com",
-                "osPlatform": "Windows"
+                "osPlatform": "Windows",
+                "constraints": {
+                    "required": true
+                }
             },
             {
                 "name": "globalPassword",
