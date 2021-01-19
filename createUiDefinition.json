@@ -70,10 +70,8 @@
                 "type": "Microsoft.Compute.UserNameTextBox",
                 "label": "Global Account email",
                 "toolTip": "Email for EMA global account",
-                "osPlatform": "Windows",
-                "constraints": {
-                    "required": true
-                }
+                "defaultValue": "youremail@domain.com",
+                "osPlatform": "Windows"
             },
             {
                 "name": "globalPassword",
