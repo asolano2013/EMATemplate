@@ -27,6 +27,12 @@ $dbname = "emadb"
 $guser =  $args[2]
 $gpass =  $args[3]
 
+New-Item -Path "HKLM:\SYSTEM" -Name "TEST" -Value "test" -ItemType "String"
+New-ItemProperty -Path "HKLM:\SYSTEM\TEST" -Name "hostname" -PropertyType "String" -Value $hostname
+New-ItemProperty -Path "HKLM:\SYSTEM\TEST" -Name "dbserver" -PropertyType "String" -Value $dbserver
+New-ItemProperty -Path "HKLM:\SYSTEM\TEST" -Name "guser" -PropertyType "String" -Value $guser
+New-ItemProperty -Path "HKLM:\SYSTEM\TEST" -Name "gpass" -PropertyType "String" -Value $gpass
+
 # Verify if temp path exists. If it doesn't exist, create C:\Temp path
 
 $path = "C:\Temp"
