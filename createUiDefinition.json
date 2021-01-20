@@ -68,8 +68,8 @@
              {
                 "name": "globalUsername",
                 "type": "Microsoft.Common.TextBox",
-                "label": "Global Account email",
-                "toolTip": "Email for EMA global account",
+                "label": "Global Administrator username",
+                "toolTip": "Email for Intel EMA global account",
                 "defaultValue": "youremail@domain.com",
                 "constraints": {
                     "regex": "^[^@]+@[^@]+[^@]+$",
@@ -80,10 +80,10 @@
                 "name": "globalPassword",
                 "type": "Microsoft.Common.PasswordBox",
                 "label": {
-                    "password": "Global Account password",
+                    "password": "Global Administrator password",
                     "confirmPassword": "Confirm password"
                 },
-                "toolTip": "Password for the EMA global account.",
+                "toolTip": "Password for the Intel EMA global account.",
                 "constraints": {
                     "required": true,
                     "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{12,40}$",
