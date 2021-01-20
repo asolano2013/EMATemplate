@@ -70,7 +70,6 @@
                 "type": "Microsoft.Common.TextBox",
                 "label": "Global Administrator username",
                 "toolTip": "Email for Intel EMA Global Administrator account.",
-                "defaultValue": "youremail@domain.com",
                 "constraints": {
                     "regex": "^[^@]+@[^@]+[^@]+$",
                     "required": true
