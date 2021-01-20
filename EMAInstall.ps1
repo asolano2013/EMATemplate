@@ -1,7 +1,7 @@
 ###################################################################################################
 #                                        
 #  Author: Adriana Solano                
-#  Company: Intel Corp                   
+#  Company: Intel Corporation                   
 #  Date: 11/13/2020                      
 #         
 #  The following script is intended to install Intel Endpoint Management Assistant (EMA) in your 
@@ -26,12 +26,6 @@ $dbserver = $args[1]
 $dbname = "emadb"
 $guser =  $args[2]
 $gpass =  $args[3]
-
-New-Item -Path "HKLM:\SYSTEM" -Name "TEST" -Value "test" -ItemType "String"
-New-ItemProperty -Path "HKLM:\SYSTEM\TEST" -Name "hostname" -PropertyType "String" -Value $hostname
-New-ItemProperty -Path "HKLM:\SYSTEM\TEST" -Name "dbserver" -PropertyType "String" -Value $dbserver
-New-ItemProperty -Path "HKLM:\SYSTEM\TEST" -Name "guser" -PropertyType "String" -Value $guser
-New-ItemProperty -Path "HKLM:\SYSTEM\TEST" -Name "gpass" -PropertyType "String" -Value $gpass
 
 # Verify if temp path exists. If it doesn't exist, create C:\Temp path
 
