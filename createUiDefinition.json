@@ -35,8 +35,8 @@
                 "toolTip": "Admin password for the virtual machine.",
                 "constraints": {
                     "required": true,
-                    "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{8,255}$",
-                    "validationMessage": "Password must be at least 8 characters long, and contain upper case, lower case, number and symbol"
+                    "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{12,40}$",
+                    "validationMessage": "Password must be at least 12 characters long, and contain upper case, lower case, number and symbol"
                 },
                 "options": {
                     "hideConfirmation": false
@@ -86,8 +86,8 @@
                 "toolTip": "Password for the Intel EMA global account.",
                 "constraints": {
                     "required": true,
-                    "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{12,40}$",
-                    "validationMessage": "Password must be at least 12 characters long, and contain upper case, lower case, number and symbol"
+                    "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{8,255}$",
+                    "validationMessage": "Password must be at least 8 characters long, and contain upper case, lower case, number and symbol"
                 },
                 "options": {
                     "hideConfirmation": false
