@@ -46,7 +46,7 @@
         "nicName": "myVMNic",
         "publicIpAddressName": "[concat(parameters('vmName'), '-', uniqueString(resourceGroup().id))]",
         "publicIpAddressSku": "Basic",
-        "sqlSku": "Express",
+        "sqlSku": "express",
         "sqlDataDisksCount": 1,
         "sqllogDisksCount": 1,
         "dataDisks": {
@@ -56,7 +56,7 @@
             "storageAccountType": "StandardSSD_LRS",
             "diskSizeGB": 32
         },
-        "imageOffer": "SQL2016SP2-WS2016",
+        "imageOffer": "sql2017-ws2019",
         "addressPrefix": "10.0.0.0/16",
         "subnetName": "Subnet",
         "virtualNetworkName": "MyVNET",
@@ -164,7 +164,7 @@
                         }
                     },
                     "imageReference":{
-                        "publisher": "MicrosoftSQLServer",
+                        "publisher": "microsoftsqlserver",
                         "offer": "[variables('imageOffer')]",
                         "sku": "[variables('sqlSku')]",
                         "version": "latest"
