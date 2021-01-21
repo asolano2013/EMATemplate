@@ -348,7 +348,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'), ' ', parameters('adminUsername'), ' ', parameters('adminPassword'))]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
                 }
             }
         }
