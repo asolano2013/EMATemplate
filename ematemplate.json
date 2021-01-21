@@ -44,7 +44,7 @@
     "variables": {
         "nicName": "myVMNic",
         "publicIpAddressName": "[parameters('vmName')]",
-        "publicIpName": "[concat(parameters('vmName'), '/publicIpAddress')]",
+        "publicIpName": "[concat(parameters('vmName'), 'publicIpAddress')]",
         "publicIpAddressSku": "Basic",
         "sqlSku": "express",
         "sqlDataDisksCount": 1,
