@@ -26,14 +26,26 @@
             "metadata": {
                 "description": "Size of the virtual machine."
             }
+        },
+        "globalUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "Username for Intel EMA Global Administrator account"
+            }
+        },
+        "globalPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Password for the Intel EMA Global Administrator account."
+            }
         }
     },
     "functions": [],
     "variables": {
         "nicName": "myVMNic",
-        "publicIpAddressName": "[concat(parameters('vmName'), '-', uniqueString(resourceGroup().id))]",
+        "publicIpAddressName": "[parameters('vmName')]",
         "publicIpAddressSku": "Basic",
-        "sqlSku": "Standard",
+        "sqlSku": "express",
         "sqlDataDisksCount": 1,
         "sqllogDisksCount": 1,
         "dataDisks": {
@@ -41,21 +53,16 @@
             "caching": "ReadOnly",
             "writeAcceleratorEnabled": false,
             "storageAccountType": "StandardSSD_LRS",
-            "diskSizeGB": 128
+            "diskSizeGB": 32
         },
-        "imageOffer": "SQL2016SP2-WS2016",
+        "imageOffer": "sql2017-ws2019",
         "addressPrefix": "10.0.0.0/16",
         "subnetName": "Subnet",
         "virtualNetworkName": "MyVNET",
         "subnetRef": "[resourceId('Microsoft.Network/VirtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
         "networkSecurityGroupName": "default-NSG",
-        "dataPath": "F:\\SQLData",
-        "diskConfigurationType": "NEW",
-        "storageWorkloadType": "General",
-        "dataDisksLUNs": "[array(range(0 ,variables('sqlDataDisksCount')))]",
-        "logDisksLUNs": "[array(range(variables('sqlDataDisksCount'), variables('sqlLogDisksCount')))]",
-        "logPath": "G:\\SQLLog",
-        "tempDbPath": "D:\\SQLTemp"
+        "filename": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/EMAInstall.ps1",
+        "scriptName": "EMAInstall.ps1"
     },
     "resources": [
         
@@ -120,7 +127,7 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "10.0.0.0/16"
+                        "[variables('addressPrefix')]"
                     ]
                 },
                 "subnets": [
@@ -156,7 +163,7 @@
                         }
                     },
                     "imageReference":{
-                        "publisher": "MicrosoftSQLServer",
+                        "publisher": "microsoftsqlserver",
                         "offer": "[variables('imageOffer')]",
                         "sku": "[variables('sqlSku')]",
                         "version": "latest"
@@ -195,35 +202,6 @@
                     }
                 }
             }
-        },
-        {
-        "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
-        "apiVersion": "2017-03-01-preview",
-        "name": "[parameters('vmName')]",
-        "location": "[resourceGroup().location]",
-        "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-        ],
-        "properties": {
-            "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
-            "sqlManagement": "Full",
-            "SqlServerLicenseType": "PAYG",
-            "StorageConfigurationSettings": {
-            "DiskConfigurationType": "[variables('diskConfigurationType')]",
-            "StorageWorkloadType": "[variables('storageWorkloadType')]",
-            "SQLDataSettings": {
-                "LUNs": "[variables('dataDisksLUNs')]",
-                "DefaultFilePath": "[variables('dataPath')]"
-            },
-            "SQLLogSettings": {
-                "Luns": "[variables('logDisksLUNs')]",
-                "DefaultFilePath": "[variables('logPath')]"
-            },
-            "SQLTempDbSettings": {
-                "DefaultFilePath": "[variables('tempDbPath')]"
-            }
-            }
-        }
         },
         {
             "name": "[variables('networkSecurityGroupName')]",
@@ -333,7 +311,7 @@
                     {
                         "name": "Port8084",
                         "properties": {
-                            "description": "Web Redirection",
+                            "description": "Websocket",
                             "protocol": "Tcp",
                             "sourcePortRange": "*",
                             "destinationPortRange": "8084",
@@ -345,6 +323,32 @@
                         }
                     }
                 ]
+            }
+        },
+        {
+            "name": "[concat(parameters('vmName'),'/EMAInstallscript')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-07-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "EMAInstall script for Windows VM"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.10",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "[variables('filename')]"
+                    ]
+                },
+                "protectedSettings": {
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
+                }
             }
         }
     ],
