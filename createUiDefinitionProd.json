@@ -1,0 +1,112 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Azure.CreateUIDef",
+    "version": "0.1.2-preview",
+    "parameters": {
+        "basics": [
+            {
+                "name": "vmName",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Virtual Machine name",
+                "toolTip": "The name of the Virtual Machine.",
+                "constraints": {
+                    "required": true,
+                    "regex": "^[a-z0-9A-Z-]{3,15}$",
+                    "validationMessage": "The VM Name must be between 3 and 10 characters long, all lower case and contain letters, numbers and hyphens only. Please use a unique string as this will be used for you Intel EMA instance."
+                }
+            },
+            {
+                "name": "adminUsername",
+                "type": "Microsoft.Compute.UserNameTextBox",
+                "label": "Username",
+                "toolTip": "Username for the virtual machine.",
+                "osPlatform": "Windows",
+                "constraints": {
+                    "required": true
+                }
+            },
+            {
+                "name": "adminPassword",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                    "password": "VM Password",
+                    "confirmPassword": "Confirm password"
+                },
+                "toolTip": "Admin password for the virtual machine.",
+                "constraints": {
+                    "required": true,
+                    "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{12,40}$",
+                    "validationMessage": "Password must be at least 12 characters long, and contain upper case, lower case, number and symbol"
+                },
+                "options": {
+                    "hideConfirmation": false
+                },
+                "visible": true
+            },
+            {
+                "name": "vmSize",
+                "type": "Microsoft.Common.DropDown",
+                "label": "Size of Virtual Machine",
+                "toolTip": "Size of the virtual machine.",
+                "osPlatform": "Windows",
+                "defaultValue": "Standard_D4s_v3",
+                "constraints": {
+                    "allowedValues": [
+                        {
+                            "label": "Standard_D2s_v3",
+                            "value": "Standard_D2s_v3"
+                        },
+                        {
+                            "label": "Standard_D4s_v3",
+                            "value": "Standard_D4s_v3"
+                        }
+                    ],
+                    "required": true
+                },
+                "visible": true
+            },
+             {
+                "name": "globalUsername",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Global Administrator username",
+                "toolTip": "Email for Intel EMA Global Administrator account.",
+                "constraints": {
+                    "regex": "^[^@]+@[^@]+[^@]+$",
+                    "required": true
+                }
+            },
+            {
+                "name": "globalPassword",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                    "password": "Global Administrator password",
+                    "confirmPassword": "Confirm password"
+                },
+                "toolTip": "Password for the Intel EMA Global Administrator account.",
+                "constraints": {
+                    "required": true,
+                    "regex": "^(?=.*[A-Z])(?=.*[.!@#$%^&*()-_=+])(?=.*[0-9])(?=.*[a-z]).{8,255}$",
+                    "validationMessage": "Password must be at least 8 characters long, and contain upper case, lower case, number and symbol"
+                },
+                "options": {
+                    "hideConfirmation": false
+                },
+                "visible": true
+            }
+        ],
+        "steps": [
+            {
+               
+            }
+        ],
+        "outputs": {
+            "location": "[location()]",
+            "vmName": "[basics('vmName')]",
+            "adminUsername": "[basics('adminUsername')]",
+            "adminPassword": "[basics('adminPassword')]",
+            "vmSize": "[basics('vmSize')]",
+            "globalUsername": "[basics('globalUsername')]",
+            "globalPassword": "[basics('globalPassword')]"
+        }
+    }
+}
