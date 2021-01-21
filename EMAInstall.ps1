@@ -48,9 +48,9 @@ $wc.DownloadFile($url, $output)
 
 add-type -AssemblyName System.IO.Compression.FileSystem
 [system.io.compression.zipFile]::ExtractToDirectory('C:\Temp\EMAInstall.zip','C:\Temp\EMAInstall')
-
-Write-Host "Waiting 120 seconds to initiate Intel EMA installer......"
-Start-Sleep -s 120
+$currentTime = Get-Date
+Write-Host "Waiting 600 seconds to initiate Intel EMA installer... $currentTime"
+Start-Sleep -s 600
 
 # Run EMA Installer.exe
 
