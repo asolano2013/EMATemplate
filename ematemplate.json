@@ -96,7 +96,7 @@
             }
         },
         {
-            "name": "[variables('publicIpAddressName')]",
+             "name": "[concat(variables('publicIpAddressName'),'/publicIpAddress')]",
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
