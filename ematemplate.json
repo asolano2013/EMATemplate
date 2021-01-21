@@ -44,7 +44,7 @@
     "functions": [],
     "variables": {
         "nicName": "myVMNic",
-        "publicIpAddressName": "[concat(parameters('vmName'), '-', uniqueString(resourceGroup().id))]",
+        "publicIpAddressName": "[parameters('vmName')]",
         "publicIpAddressSku": "Basic",
         "sqlSku": "express",
         "sqlDataDisksCount": 1,
@@ -62,7 +62,7 @@
         "virtualNetworkName": "MyVNET",
         "subnetRef": "[resourceId('Microsoft.Network/VirtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
         "networkSecurityGroupName": "default-NSG",
-        "filename": "https://raw.githubusercontent.com/da-vid/EMATemplate/main/EMAInstall.ps1",
+        "filename": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/EMAInstall.ps1",
         "scriptName": "EMAInstall.ps1"
     },
     "resources": [
