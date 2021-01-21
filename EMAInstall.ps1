@@ -51,6 +51,8 @@ add-type -AssemblyName System.IO.Compression.FileSystem
 
 Invoke-SqlCmd -Query "EXEC sp_addsrvrolemember 'NT AUTHORITY\SYSTEM', 'sysadmin'" -ServerInstance "."
 
+$currentUser = whoami
+Write-Host "Current User = $currentUser"
 $currentTime = Get-Date
 Write-Host "Waiting 30 seconds to initiate Intel EMA installer... $currentTime"
 Start-Sleep -s 30
