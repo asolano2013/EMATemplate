@@ -48,9 +48,12 @@ $wc.DownloadFile($url, $output)
 
 add-type -AssemblyName System.IO.Compression.FileSystem
 [system.io.compression.zipFile]::ExtractToDirectory('C:\Temp\EMAInstall.zip','C:\Temp\EMAInstall')
+
+Invoke-SqlCmd -Query "EXEC sp_addsrvrolemember 'NT AUTHORITY\SYSTEM', 'sysadmin'" -ServerInstance "."
+
 $currentTime = Get-Date
-Write-Host "Waiting 600 seconds to initiate Intel EMA installer... $currentTime"
-Start-Sleep -s 600
+Write-Host "Waiting 30 seconds to initiate Intel EMA installer... $currentTime"
+Start-Sleep -s 30
 
 # Run EMA Installer.exe
 
@@ -63,4 +66,6 @@ $currentTime = Get-Date
 Write-Host "EMA install process complete.  $currentTime"
 }
 catch {Write-Host "An error ocurred! Please try again..."}
+
+Invoke-SqlCmd -Query "EXEC sp_dropsrvrolemember 'NT AUTHORITY\SYSTEM', 'sysadmin'" -ServerInstance "."
 
