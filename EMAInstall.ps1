@@ -37,7 +37,7 @@ If(!(test-path $path)){
 
 # Download EMA Install file from GitLab
 
-$url = "https://downloadcenter.intel.com/download/28994/Intel-Endpoint-Management-Assistant-Intel-EMA-?wapkw=ema"
+$url = "https://downloadmirror.intel.com/28994/eng/Ema_Install_Package_1.3.3.1.exe"
 $output = "C:\Temp\EMAInstall.zip"
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls, [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Ssl3
