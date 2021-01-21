@@ -37,7 +37,7 @@ If(!(test-path $path)){
 
 # Download EMA Install file from GitLab
 
-$url = "https://github.com/da-vid/EMATemplate/raw/main/Ema_Install_Package_1.3.3.1.exe"
+$url = "https://github.com/asolano2013/EMATemplate/raw/main/Ema_Install_Package_1.3.3.1.exe"
 $output = "C:\Temp\EMAInstall.zip"
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls, [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Ssl3
