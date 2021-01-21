@@ -75,3 +75,5 @@ Write-Host "EMA install process complete.  $currentTime"
 }
 catch {Write-Host "An error ocurred! Please try again..."}
 
+SQLCMD -Q "EXEC master..sp_dropsrvrolemember @loginame = N'NT AUTHORITY\SYSTEM', @rolename = N'sysadmin'" 
+
