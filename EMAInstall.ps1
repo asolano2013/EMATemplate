@@ -56,8 +56,12 @@ Start-Sleep -s 120
 
 try{
 $args = @("FULLINSTALL","--host=$hostname","--dbserver=$dbserver","--db=$dbname","--guser=$guser","--gpass=$gpass","--verbose","--accepteula")
+$currentTime = Get-Date
+Write-Host "EMA install starting... $currentTime"
 Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall" -Wait
-Write-Host "EMA install started...."
+Get-Date
+$currentTime = Get-Date
+Write-Host "EMA install process complete.  $currentTime"
 }
 catch {Write-Host "An error ocurred! Please try again..."}
 
