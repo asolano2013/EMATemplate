@@ -51,8 +51,6 @@ $wc.DownloadFile($url, $output)
 add-type -AssemblyName System.IO.Compression.FileSystem
 [system.io.compression.zipFile]::ExtractToDirectory('C:\Temp\EMAInstall.zip','C:\Temp\EMAInstall')
 
-Invoke-SqlCmd -Query "EXEC sp_addsrvrolemember 'NT AUTHORITY\SYSTEM', 'sysadmin'" -ServerInstance "."
-
 $currentUser = whoami
 Write-Host "Current User = $currentUser"
 Write-Host "Running installer as = $serveradmin"
@@ -61,7 +59,6 @@ Write-Host "Waiting 30 seconds to initiate Intel EMA installer... $currentTime"
 Start-Sleep -s 30
 
 # Run EMA Installer.exe
-
 
 $securePassword = ConvertTo-SecureString $serveradminpassword -AsPlainText -Force
 $credential = New-Object System.Management.Automation.PSCredential $serveradmin, $securePassword
