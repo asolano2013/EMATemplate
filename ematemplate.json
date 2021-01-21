@@ -44,6 +44,7 @@
     "variables": {
         "nicName": "myVMNic",
         "publicIpAddressName": "[parameters('vmName')]",
+        "publicIpName": "[concat(parameters('vmName'), 'publicIpAddress')]",
         "publicIpAddressSku": "Basic",
         "sqlSku": "express",
         "sqlDataDisksCount": 1,
@@ -96,7 +97,7 @@
             }
         },
         {
-            "name": "PublicIpAddress",
+            "name": "[variables('publicIpName')]",
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
