@@ -49,10 +49,8 @@ $wc.DownloadFile($url, $output)
 add-type -AssemblyName System.IO.Compression.FileSystem
 [system.io.compression.zipFile]::ExtractToDirectory('C:\Temp\EMAInstall.zip','C:\Temp\EMAInstall')
 
-$currentUser = whoami
-Write-Host "Current User = $currentUser"
 $currentTime = Get-Date
-Write-Host "Waiting 120 seconds to initiate Intel EMA installer... $currentTime"
+Write-Host "Pausing 120 seconds to ensure database is ready... $currentTime"
 Start-Sleep -s 120
 
 # Provide local system account that is running this script with permissions needed to create EMA database
@@ -60,6 +58,7 @@ Start-Sleep -s 120
 NET STOP MSSQLSERVER
 NET START MSSQLSERVER /mSQLCMD 
 
+Write-Host "Enabling system account to create Intel EMA database... "
 SQLCMD -Q "EXEC master..sp_addsrvrolemember @loginame = N'NT AUTHORITY\SYSTEM', @rolename = N'sysadmin'" 
 
 NET STOP MSSQLSERVER
@@ -78,6 +77,6 @@ Write-Host "EMA install process complete.  $currentTime"
 catch {Write-Host "An error ocurred! Please try again..."}
 
 # Clean up permissions
-
+Write-Host "Restoring database permissions... "
 SQLCMD -Q "EXEC master..sp_dropsrvrolemember @loginame = N'NT AUTHORITY\SYSTEM', @rolename = N'sysadmin'" 
 
