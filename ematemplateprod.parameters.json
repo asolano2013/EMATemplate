@@ -10,6 +10,11 @@
     },
     "adminPassword": {
       "value": "GEN-PASSWORD"
-    }
-  }
+    },
+    "globalUsername": {
+      "value": "GEN-UNIQUE"
+    },
+    "globalPassword": {
+      "value": "GEN-PASSWORD"
+     }
 }
