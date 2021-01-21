@@ -44,7 +44,7 @@
     "variables": {
         "nicName": "myVMNic",
         "publicIpAddressName": "[parameters('vmName')]",
-        "publicIpName": "[concat(parameters('vmName'), 'publicIpAddress')]",
+        "publicIpName": "[concat(parameters('vmName'), '/publicIpAddress')]",
         "publicIpAddressSku": "Basic",
         "sqlSku": "express",
         "sqlDataDisksCount": 1,
@@ -76,7 +76,7 @@
                 "displayName": "[variables('nicName')]"
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]",
+                "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
             ],
             "properties": {
@@ -86,7 +86,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpName'))]"
                             },
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
