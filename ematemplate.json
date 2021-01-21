@@ -43,7 +43,7 @@
     "functions": [],
     "variables": {
         "nicName": "myVMNic",
-        "publicIpAddressName": "[parameters('vmName')]",
+        "dnsLabelName": "[parameters('vmName')]",
         "publicIpName": "[concat(parameters('vmName'), 'publicIpAddress')]",
         "publicIpAddressSku": "Basic",
         "sqlSku": "express",
@@ -110,7 +110,7 @@
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
-                    "domainNameLabel": "[variables('publicIpAddressName')]"
+                    "domainNameLabel": "[variables('dnsLabelName')]"
                 }
             }
         },
@@ -348,7 +348,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
                 }
             }
         }
@@ -356,7 +356,7 @@
     "outputs": {
         "hostname": {
             "type": "string",
-            "value": "[reference(variables('publicIpAddressName')).dnsSettings.fqdn]"
+            "value": "[reference(variables('publicIpName')).dnsSettings.fqdn]"
         }
     }
 }
