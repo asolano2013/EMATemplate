@@ -37,7 +37,7 @@ If(!(test-path $path)){
 
 # Download EMA Install file from GitLab
 
-$url = "https://github.com/asolano2013/EMATemplate/raw/main/Ema_Install_Package_1.3.3.1.exe"
+$url = "https://github.com/da-vid/EMATemplate/raw/main/Ema_Install_Package_1.3.3.1.exe"
 $output = "C:\Temp\EMAInstall.zip"
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls, [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Ssl3
@@ -48,13 +48,15 @@ $wc.DownloadFile($url, $output)
 
 add-type -AssemblyName System.IO.Compression.FileSystem
 [system.io.compression.zipFile]::ExtractToDirectory('C:\Temp\EMAInstall.zip','C:\Temp\EMAInstall')
-Write-Host "Please wait for EMA install to start......"
+
+Write-Host "Waiting 120 seconds to initiate Intel EMA installer......"
+Start-Sleep -s 120
 
 # Run EMA Installer.exe
 
 try{
-$args = @("FULLINSTALL","--host=$hostname","--dbserver=$dbserver","--db=$dbname","--guser=$guser","--gpass=$gpass","--verbose","--console","--accepteula")
-Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall"
+$args = @("FULLINSTALL","--host=$hostname","--dbserver=$dbserver","--db=$dbname","--guser=$guser","--gpass=$gpass","--verbose","--accepteula")
+Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall" -Wait
 Write-Host "EMA install started...."
 }
 catch {Write-Host "An error ocurred! Please try again..."}
