@@ -31,13 +31,13 @@
             "type": "string",
             "defaultValue": "youremail@domain.com",
             "metadata": {
-                "description": "Please enter email for Global account"
+                "description": "Username for Intel EMA Global Administrator account"
             }
         },
         "globalPassword": {
             "type": "securestring",
             "metadata": {
-                "description": "Password for the EMA Global account."
+                "description": "Password for the Intel EMA Global Administrator account."
             }
         }
     },
@@ -46,7 +46,7 @@
         "nicName": "myVMNic",
         "publicIpAddressName": "[concat(parameters('vmName'), '-', uniqueString(resourceGroup().id))]",
         "publicIpAddressSku": "Basic",
-        "sqlSku": "Express",
+        "sqlSku": "express",
         "sqlDataDisksCount": 1,
         "sqllogDisksCount": 1,
         "dataDisks": {
@@ -56,13 +56,13 @@
             "storageAccountType": "StandardSSD_LRS",
             "diskSizeGB": 32
         },
-        "imageOffer": "SQL2016SP2-WS2016",
+        "imageOffer": "sql2017-ws2019",
         "addressPrefix": "10.0.0.0/16",
         "subnetName": "Subnet",
         "virtualNetworkName": "MyVNET",
         "subnetRef": "[resourceId('Microsoft.Network/VirtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
         "networkSecurityGroupName": "default-NSG",
-        "filename": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/EMAInstall.ps1",
+        "filename": "https://raw.githubusercontent.com/da-vid/EMATemplate/main/EMAInstall.ps1",
         "scriptName": "EMAInstall.ps1"
     },
     "resources": [
@@ -164,7 +164,7 @@
                         }
                     },
                     "imageReference":{
-                        "publisher": "MicrosoftSQLServer",
+                        "publisher": "microsoftsqlserver",
                         "offer": "[variables('imageOffer')]",
                         "sku": "[variables('sqlSku')]",
                         "version": "latest"
