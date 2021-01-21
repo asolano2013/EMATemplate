@@ -52,10 +52,16 @@ add-type -AssemblyName System.IO.Compression.FileSystem
 $currentUser = whoami
 Write-Host "Current User = $currentUser"
 $currentTime = Get-Date
-Write-Host "Waiting 180 seconds to initiate Intel EMA installer... $currentTime"
-Start-Sleep -s 180
+Write-Host "Waiting 120 seconds to initiate Intel EMA installer... $currentTime"
+Start-Sleep -s 120
+
+NET STOP MSSQLSERVER
+NET START MSSQLSERVER /mSQLCMD 
 
 Invoke-SqlCmd -Query "EXEC sp_addsrvrolemember 'NT AUTHORITY\SYSTEM', 'sysadmin'" -ServerInstance "."
+
+NET STOP MSSQLSERVER
+NET START MSSQLSERVER
 
 # Run EMA Installer.exe
 
