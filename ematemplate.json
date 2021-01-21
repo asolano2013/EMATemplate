@@ -29,7 +29,6 @@
         },
         "globalUsername": {
             "type": "string",
-            "defaultValue": "youremail@domain.com",
             "metadata": {
                 "description": "Username for Intel EMA Global Administrator account"
             }
