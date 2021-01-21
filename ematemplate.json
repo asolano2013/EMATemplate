@@ -31,13 +31,13 @@
             "type": "string",
             "defaultValue": "youremail@domain.com",
             "metadata": {
-                "description": "Please enter email for Global account"
+                "description": "Username for Intel EMA Global Administrator account"
             }
         },
         "globalPassword": {
             "type": "securestring",
             "metadata": {
-                "description": "Password for the EMA Global account."
+                "description": "Password for the Intel EMA Global Administrator account."
             }
         }
     },
@@ -348,7 +348,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpAddressName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'), ' ', parameters('adminUsername'), ' ', parameters('adminPassword'))]"
                 }
             }
         }
