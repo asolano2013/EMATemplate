@@ -14,7 +14,7 @@ NOTE: You are able to download the templates and modify the different configurat
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fasolano2013%2FEMATemplate%2Fmain%2Fematemplate.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fasolano2013%2FEMATemplate%2Fmain%2FcreateUiDefinitionProd.json)
 
-Helpful Resources
+# Helpful Resources
 
 •	[Intel Endpoint Management Assistant](https://newsroom.intel.com/news/intel-endpoint-management-assistant-makes-managing-remote-intel-vpro-platform-based-devices-easier/#gs.r5a0nc)
 
