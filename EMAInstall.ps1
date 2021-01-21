@@ -58,7 +58,7 @@ Start-Sleep -s 120
 NET STOP MSSQLSERVER
 NET START MSSQLSERVER /mSQLCMD 
 
-Invoke-SqlCmd -Query "EXEC sp_addsrvrolemember 'NT AUTHORITY\SYSTEM', 'sysadmin'" -ServerInstance "."
+SQLCMD -Q "EXEC master..sp_addsrvrolemember @loginame = N'NT AUTHORITY\SYSTEM', @rolename = N'sysadmin'" 
 
 NET STOP MSSQLSERVER
 NET START MSSQLSERVER
