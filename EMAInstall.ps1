@@ -55,6 +55,8 @@ $currentTime = Get-Date
 Write-Host "Waiting 120 seconds to initiate Intel EMA installer... $currentTime"
 Start-Sleep -s 120
 
+# Provide local system account that is running this script with permissions needed to create EMA database
+
 NET STOP MSSQLSERVER
 NET START MSSQLSERVER /mSQLCMD 
 
@@ -74,6 +76,8 @@ $currentTime = Get-Date
 Write-Host "EMA install process complete.  $currentTime"
 }
 catch {Write-Host "An error ocurred! Please try again..."}
+
+# Clean up permissions
 
 SQLCMD -Q "EXEC master..sp_dropsrvrolemember @loginame = N'NT AUTHORITY\SYSTEM', @rolename = N'sysadmin'" 
 
