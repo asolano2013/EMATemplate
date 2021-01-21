@@ -96,7 +96,7 @@
             }
         },
         {
-             "name": "[concat(variables('publicIpAddressName'),'/publicIpAddress')]",
+            "name": "PublicIpAddress",
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
@@ -104,7 +104,7 @@
                 "name": "[variables('publicIpAddressSku')]"
             },
             "tags": {
-                "displayName": "PublicIPAddress"
+                "displayName": "PublicIpAddress"
             },
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
