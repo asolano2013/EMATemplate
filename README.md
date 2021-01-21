@@ -1,7 +1,6 @@
 # Intel® Endpoint Management Assistant (Intel® EMA) Server Cloud-Start
 
-This template will create a Virtual Machine in Microsoft Azure. It will automatically deploy all requirements needed in order to get Intel EMA configured.
-Use the applicable button below to create a Virtual Machine in Microsoft Azure with all necessary background services and Intel EMA automatically installed. Keep in mind that the estimated cost below is based on a Hybrid Benefit(Windows) License. 
+This template will create a Virtual Machine in Microsoft Azure. Use the applicable button below to deploy the build with all necessary background services and Intel EMA automatically installed. Keep in mind that the estimated cost below is based on a Hybrid Benefit(Windows) License. 
 Please wait ~15 minutes after you deploy the build before you use instance, allowing all configurations to complete.
 
 NOTE: You are able to download the templates and modify the different configurations for the virtual machine. You can modify the VM size, disk size, SQL license, etc..
