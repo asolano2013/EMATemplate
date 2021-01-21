@@ -26,8 +26,6 @@ $dbserver = $args[1]
 $dbname = "emadb"
 $guser =  $args[2]
 $gpass =  $args[3]
-$serveradmin = $args[4]
-$serveradminpassword = $args[5]
 
 # Verify if temp path exists. If it doesn't exist, create C:\Temp path
 
@@ -53,21 +51,19 @@ add-type -AssemblyName System.IO.Compression.FileSystem
 
 $currentUser = whoami
 Write-Host "Current User = $currentUser"
-Write-Host "Running installer as = $serveradmin"
 $currentTime = Get-Date
-Write-Host "Waiting 30 seconds to initiate Intel EMA installer... $currentTime"
-Start-Sleep -s 30
+Write-Host "Waiting 180 seconds to initiate Intel EMA installer... $currentTime"
+Start-Sleep -s 180
+
+Invoke-SqlCmd -Query "EXEC sp_addsrvrolemember 'NT AUTHORITY\SYSTEM', 'sysadmin'" -ServerInstance "."
 
 # Run EMA Installer.exe
-
-$securePassword = ConvertTo-SecureString $serveradminpassword -AsPlainText -Force
-$credential = New-Object System.Management.Automation.PSCredential $serveradmin, $securePassword
 
 try{
 $args = @("FULLINSTALL","--host=$hostname","--dbserver=$dbserver","--db=$dbname","--guser=$guser","--gpass=$gpass","--verbose","--autoexit","--accepteula")
 $currentTime = Get-Date
 Write-Host "EMA install starting... $currentTime"
-Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall" -Wait -Credential $credential
+Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall" -Wait 
 $currentTime = Get-Date
 Write-Host "EMA install process complete.  $currentTime"
 }
