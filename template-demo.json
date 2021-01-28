@@ -5,7 +5,7 @@
         "vmName": {
             "type": "string",
             "metadata": {
-                "description": "Name of the virtual machine."
+                "description": "Name of the virtual machine. Please use a unique name as this will be used as you Intel EMA instance."
             }
         },
         "adminUsername": {
@@ -17,7 +17,7 @@
         "adminPassword": {
             "type": "securestring",
             "metadata": {
-                "description": "Password for the virtual machine."
+                "description": "Admin Password for the virtual machine."
             }
         },
         "vmSize": {
@@ -26,14 +26,27 @@
             "metadata": {
                 "description": "Size of the virtual machine."
             }
+        },
+        "globalUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "Username for Intel EMA Global Administrator account"
+            }
+        },
+        "globalPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Password for the Intel EMA Global Administrator account."
+            }
         }
     },
     "functions": [],
     "variables": {
         "nicName": "myVMNic",
-        "publicIpAddressName": "[concat(parameters('vmName'), '-', uniqueString(resourceGroup().id))]",
+        "dnsLabelName": "[parameters('vmName')]",
+        "publicIpName": "[concat(parameters('vmName'), 'publicIpAddress')]",
         "publicIpAddressSku": "Basic",
-        "sqlSku": "Standard",
+        "sqlSku": "express",
         "sqlDataDisksCount": 1,
         "sqllogDisksCount": 1,
         "dataDisks": {
@@ -43,19 +56,14 @@
             "storageAccountType": "StandardSSD_LRS",
             "diskSizeGB": 32
         },
-        "imageOffer": "SQL2016SP2-WS2016",
+        "imageOffer": "sql2017-ws2019",
         "addressPrefix": "10.0.0.0/16",
         "subnetName": "Subnet",
         "virtualNetworkName": "MyVNET",
         "subnetRef": "[resourceId('Microsoft.Network/VirtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
-        "networkSecurityGroupName": "default-NSG"
-        //"dataPath": "F:\\SQLData",
-        //"diskConfigurationType": "NEW",
-        //"storageWorkloadType": "General",
-        //"dataDisksLUNs": "[array(range(0 ,variables('sqlDataDisksCount')))]",
-        //"logDisksLUNs": "[array(range(variables('sqlDataDisksCount'), variables('sqlLogDisksCount')))]",
-        //"logPath": "G:\\SQLLog",
-        //"tempDbPath": "D:\\SQLTemp"
+        "networkSecurityGroupName": "default-NSG",
+        "filename": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/EMAInstall.ps1",
+        "scriptName": "EMAInstall.ps1"
     },
     "resources": [
         
@@ -68,7 +76,7 @@
                 "displayName": "[variables('nicName')]"
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]",
+                "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
             ],
             "properties": {
@@ -78,7 +86,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpName'))]"
                             },
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
@@ -89,7 +97,7 @@
             }
         },
         {
-            "name": "[variables('publicIpAddressName')]",
+            "name": "[variables('publicIpName')]",
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
@@ -97,12 +105,12 @@
                 "name": "[variables('publicIpAddressSku')]"
             },
             "tags": {
-                "displayName": "PublicIPAddress"
+                "displayName": "PublicIpAddress"
             },
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
-                    "domainNameLabel": "[variables('publicIpAddressName')]"
+                    "domainNameLabel": "[variables('dnsLabelName')]"
                 }
             }
         },
@@ -156,7 +164,7 @@
                         }
                     },
                     "imageReference":{
-                        "publisher": "MicrosoftSQLServer",
+                        "publisher": "microsoftsqlserver",
                         "offer": "[variables('imageOffer')]",
                         "sku": "[variables('sqlSku')]",
                         "version": "latest"
@@ -196,35 +204,6 @@
                 }
             }
         },
-        //{
-        //"type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
-        //"apiVersion": "2017-03-01-preview",
-        //"name": "[parameters('vmName')]",
-        //"location": "[resourceGroup().location]",
-        //"dependsOn": [
-        //    "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-        //],
-        //"properties": {
-        //    "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
-        //    "sqlManagement": "Full",
-        //    "SqlServerLicenseType": "PAYG",
-        //    "StorageConfigurationSettings": {
-        //    "DiskConfigurationType": "[variables('diskConfigurationType')]",
-        //    "StorageWorkloadType": "[variables('storageWorkloadType')]",
-        //    "SQLDataSettings": {
-        //        "LUNs": "[variables('dataDisksLUNs')]",
-        //        "DefaultFilePath": "[variables('dataPath')]"
-        //    },
-        //    "SQLLogSettings": {
-        //        "Luns": "[variables('logDisksLUNs')]",
-        //        "DefaultFilePath": "[variables('logPath')]"
-        //    },
-        //    "SQLTempDbSettings": {
-        //        "DefaultFilePath": "[variables('tempDbPath')]"
-        //    }
-        //    }
-        //}
-        //},
         {
             "name": "[variables('networkSecurityGroupName')]",
             "type": "Microsoft.Network/networkSecurityGroups",
@@ -346,12 +325,64 @@
                     }
                 ]
             }
+        },
+        {
+            "name": "[concat(parameters('vmName'), '/dotNET48Install')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-07-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "dotNET 4.8 script"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.9",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "modulesUrl": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/dotNET48Install.ps1",
+                    "sasToken": "artifactsLocationSasToken",
+                    "configurationFunction": "Configure"
+                },
+                "protectedSettings": {
+                }
+            }
         }
+        // },
+        // {
+        //     "name": "[concat(parameters('vmName'),'/EMAInstallscript')]",
+        //     "type": "Microsoft.Compute/virtualMachines/extensions",
+        //     "apiVersion": "2019-07-01",
+        //     "location": "[resourceGroup().location]",
+        //     "tags": {
+        //         "displayName": "EMAInstall script for Windows VM"
+        //     },
+        //     "dependsOn": [
+        //         "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+        //     ],
+        //     "properties": {
+        //         "publisher": "Microsoft.Compute",
+        //         "type": "CustomScriptExtension",
+        //         "typeHandlerVersion": "1.10",
+        //         "autoUpgradeMinorVersion": true,
+        //         "settings": {
+        //             "fileUris": [
+        //                 "[variables('filename')]"
+        //             ]
+        //         },
+        //         "protectedSettings": {
+        //             "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
+        //         }
+        //     }
+        // }
     ],
     "outputs": {
         "hostname": {
             "type": "string",
-            "value": "[reference(variables('publicIpAddressName')).dnsSettings.fqdn]"
+            "value": "[reference(variables('publicIpName')).dnsSettings.fqdn]"
         }
     }
 }
