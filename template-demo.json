@@ -345,7 +345,7 @@
                 "settings": {
                     "modulesUrl": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/dotNET48Install.ps1",
                     "sasToken": "artifactsLocationSasToken",
-                    "configurationFunction": "Configure"
+                    "configurationFunction": "Net48Install"
                 },
                 "protectedSettings": {
                 }
