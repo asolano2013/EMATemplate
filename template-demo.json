@@ -343,9 +343,9 @@
                 "typeHandlerVersion": "2.9",
                 "autoUpgradeMinorVersion": true,
                 "settings": {
-                    "modulesUrl": "https://raw.githubusercontent.com/asolano2013/EMATemplate/main/dotNET48Install.ps1",
+                    "modulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.ps1.zip",
                     "sasToken": "artifactsLocationSasToken",
-                    "configurationFunction": "Net48Install"
+                    "configurationFunction": "dotNET48Install.ps1\\Net48Install"
                 },
                 "protectedSettings": {
                 }
