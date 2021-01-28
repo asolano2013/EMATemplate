@@ -15,7 +15,7 @@ NOTE: You are able to download the templates and modify the different configurat
 
 > Testing
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fasolano2013%2FEMATemplate%2Fmain%2Fematemplate-demo.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fasolano2013%2FEMATemplate%2Fmain%2FcreateUiDefinition.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fasolano2013%2FEMATemplate%2Fmain%2Ftemplate-demo.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fasolano2013%2FEMATemplate%2Fmain%2FcreateUiDefinition.json)
 
 # Helpful Resources
 
