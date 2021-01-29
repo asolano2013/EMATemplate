@@ -343,8 +343,11 @@
                 "typeHandlerVersion": "2.9",
                 "autoUpgradeMinorVersion": true,
                 "settings": {
-                    "modulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.ps1.zip",
-                    "configurationFunction": "dotNET48Install.ps1\\Net48Install"
+                    "configuration": {
+                        "url": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.ps1.zip",
+                        "script": "dotNET48Install.ps1",
+                        "function": "Net48Install"
+                    }
                 },
                 "protectedSettings": {
                 }
