@@ -344,7 +344,7 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "configuration": {
-                        "url": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.ps1.zip",
+                        "url": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.ps1.zip?raw=true",
                         "script": "dotNET48Install.ps1",
                         "function": "Net48Install"
                     }
