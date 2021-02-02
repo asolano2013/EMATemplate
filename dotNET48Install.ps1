@@ -36,7 +36,7 @@
                 ## Run .NET 4.8 Installer from MS
  
                 try{
-                $args = @('/q',"/norestart")
+                $args = @('/q')
                 $currentTime = Get-Date
                 Write-Host ".Net 4.8 install starting... $currentTime"
                 Start-Process -Filepath "C:\Temp\ndp48-x86-x64-allos-enu.exe" -ArgumentList $args -WorkingDirectory "C:\Temp" -Wait 
