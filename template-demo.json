@@ -46,7 +46,7 @@
         "dnsLabelName": "[parameters('vmName')]",
         "publicIpName": "[concat(parameters('vmName'), 'publicIpAddress')]",
         "publicIpAddressSku": "Basic",
-        "sqlSku": "express",
+        //"sqlSku": "express",
         "sqlDataDisksCount": 1,
         "sqllogDisksCount": 1,
         "dataDisks": {
@@ -56,7 +56,7 @@
             "storageAccountType": "StandardSSD_LRS",
             "diskSizeGB": 32
         },
-        "imageOffer": "sql2017-ws2019",
+        "imageOffer": "2019-datacenter-gensecond",
         "addressPrefix": "10.0.0.0/16",
         "subnetName": "Subnet",
         "virtualNetworkName": "MyVNET",
@@ -166,7 +166,7 @@
                     "imageReference":{
                         "publisher": "microsoftsqlserver",
                         "offer": "[variables('imageOffer')]",
-                        "sku": "[variables('sqlSku')]",
+                        //"sku": "[variables('sqlSku')]",
                         "version": "latest"
                     },
                      "copy": [
