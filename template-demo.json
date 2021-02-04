@@ -164,7 +164,7 @@
                         }
                     },
                     "imageReference":{
-                        "publisher": "microsoftsqlserver",
+                        "publisher": "MicrosoftWindowsServer",
                         "offer": "[variables('imageOffer')]",
                         "sku": "[variables('sqlSku')]",
                         "version": "latest"
