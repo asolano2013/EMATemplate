@@ -1,7 +1,7 @@
 Configuration Net48Install
 {
 
-Import-DscResource -ModuleName xPendingReboot
+powershell -version 2.0
 
     node "localhost"
     {
@@ -9,11 +9,6 @@ Import-DscResource -ModuleName xPendingReboot
         LocalConfigurationManager
         {
             RebootNodeIfNeeded = $true
-        }
-
-        xPendingReboot Reboot
-        {
-            Name = "Reboot"
         }
         
         Script Install_Net_4.8
@@ -50,15 +45,11 @@ Import-DscResource -ModuleName xPendingReboot
                 Start-Process -Filepath "C:\Temp\ndp48-x86-x64-allos-enu.exe" -ArgumentList $args -WorkingDirectory "C:\Temp" -Wait 
                 $currentTime = Get-Date
                 Write-Host ".Net 4.8 install complete.  $currentTime"
-                New-Item -Path HKLM:\SOFTWARE\MyMainKey\RebootKey -Force
-                $global:DSCMachineStatus = 1
                 }
                 catch {Write-Host "An error occurred! Please try again..."}
             }
 
             TestScript = {
-
-                return (Test-Path HKLM:\SOFTWARE\MyMainKey\RebootKey)
 
                 [int]$NetBuildVersion = 528040
 
@@ -85,8 +76,6 @@ Import-DscResource -ModuleName xPendingReboot
 
 
             GetScript = {
-
-                return @{result = 'result'}
 
                 if (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full' | %{$_ -match 'Release'})
                 {
