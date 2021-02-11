@@ -353,7 +353,7 @@
         //     }
         // },
         {
-            "name": "dotNetInstall",
+            "name": "[concat(parameters('vmName'),'/dotNetInstall')]",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2019-07-01",
             "location": "[resourceGroup().location]",
