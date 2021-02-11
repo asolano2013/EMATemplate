@@ -22,7 +22,7 @@
         },
         "vmSize": {
             "type": "string",
-            "defaultValue": "Standard_D4s_v3",
+            "defaultValue": "Standard_D2s_v3",
             "metadata": {
                 "description": "Size of the virtual machine."
             }
@@ -46,7 +46,7 @@
         "dnsLabelName": "[parameters('vmName')]",
         "publicIpName": "[concat(parameters('vmName'), 'publicIpAddress')]",
         "publicIpAddressSku": "Basic",
-        "sqlSku": "2019-datacenter-gensecond",
+        "sqlSku": "express",
         "sqlDataDisksCount": 1,
         "sqllogDisksCount": 1,
         "dataDisks": {
@@ -56,7 +56,7 @@
             "storageAccountType": "StandardSSD_LRS",
             "diskSizeGB": 32
         },
-        "imageOffer": "WindowsServer",
+        "imageOffer": "sql2017-ws2019",
         "addressPrefix": "10.0.0.0/16",
         "subnetName": "Subnet",
         "virtualNetworkName": "MyVNET",
@@ -164,7 +164,7 @@
                         }
                     },
                     "imageReference":{
-                        "publisher": "MicrosoftWindowsServer",
+                        "publisher": "microsoftsqlserver",
                         "offer": "[variables('imageOffer')]",
                         "sku": "[variables('sqlSku')]",
                         "version": "latest"
@@ -326,34 +326,6 @@
                 ]
             }
         },
-        {
-            "name": "[concat(parameters('vmName'), '/dotNET48Install')]",
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "apiVersion": "2019-07-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "dotNET 4.8 script"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-            ],
-            "properties": {
-                "publisher": "Microsoft.Powershell",
-                "type": "DSC",
-                "typeHandlerVersion": "2.9",
-                "autoUpgradeMinorVersion": true,
-                "settings": {
-                    "configuration": {
-                        "url": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.ps1.zip?raw=true",
-                        "script": "dotNET48Install.ps1",
-                        "function": "Net48Install"
-                    }
-                },
-                "protectedSettings": {
-                }
-            }
-        }
-        // },
         // {
         //     "name": "[concat(parameters('vmName'),'/EMAInstallscript')]",
         //     "type": "Microsoft.Compute/virtualMachines/extensions",
@@ -379,7 +351,38 @@
         //             "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
         //         }
         //     }
-        // }
+        // },
+        {
+            "name": "dotNetInstall",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-07-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "dotNetInstall"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.19",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "modulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.zip?raw=true",
+                    "configurationFunction": "dotNET48Install.ps1\\Net48Install"
+                },
+                "protectedSettings": {
+                    "Items": {
+                        "vmName": "[parameters('vmName')]",
+                        "adminUsername": "[parameters('adminUsername')]",
+                        "adminPassword": "[parameters('adminPassword')]",
+                        "globalUsername": "[parameters('globalUsername')]",
+                        "globalPassword": "[parameters('globalPassword')]"
+                    }
+                }
+            }
+        }
     ],
     "outputs": {
         "hostname": {
