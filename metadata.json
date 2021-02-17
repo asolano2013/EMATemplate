@@ -1,5 +1,0 @@
-{
-  "$schema": "https://aka.ms/ematemplate-schema#",
-  "itemDisplayName": "Intel® Endpoint Management Asistant (Intel® EMA) instance deployment",
-  "description": "This template deploys a Virtual Machine with Intel® EMA pre installed"
-}
