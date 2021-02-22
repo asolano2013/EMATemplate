@@ -3,6 +3,11 @@
     "handler": "Microsoft.Azure.CreateUIDef",
     "version": "0.1.2-preview",
     "parameters": {
+        "config": {
+            "basics": { 
+                "description": "### Create a VM running Intel Endpoint Management Assistant (Intel EMA)  \n [Learn more about Intel EMA](https://www.intel.com/content/www/us/en/support/articles/000056028/software/manageability-products.html)."
+            }
+        },
         "basics": [
             {
                 "name": "vmName",
