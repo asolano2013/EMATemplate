@@ -352,37 +352,28 @@
         //         }
         //     }
         // },
-        {
-            "name": "[concat(parameters('vmName'),'/dotNetInstall')]",
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "apiVersion": "2019-07-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "dotNetInstall"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-            ],
-            "properties": {
-                "publisher": "Microsoft.Powershell",
-                "type": "DSC",
-                "typeHandlerVersion": "2.19",
-                "autoUpgradeMinorVersion": true,
-                "settings": {
-                    "modulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.zip?raw=true",
-                    "configurationFunction": "dotNET48Install.ps1\\Net48Install"
-                },
-                "protectedSettings": {
-                    "Items": {
-                        "vmName": "[parameters('vmName')]",
-                        "adminUsername": "[parameters('adminUsername')]",
-                        "adminPassword": "[parameters('adminPassword')]",
-                        "globalUsername": "[parameters('globalUsername')]",
-                        "globalPassword": "[parameters('globalPassword')]"
-                    }
-                }
-            }
+           {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('vmName'),'/InstallDotNet')]",
+      "apiVersion": "2019-12-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.19",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "ModulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.zip?raw=true",
+          "ConfigurationFunction": "dotNet48Install.ps1\\Net48Install",
+          "Properties": {
+            "MachineName": "[parameters('vmName')]"
+          }
         }
+      }
+    }
     ],
     "outputs": {
         "hostname": {
