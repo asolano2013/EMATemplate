@@ -369,7 +369,6 @@
           "ModulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.zip?raw=true",
           "ConfigurationFunction": "dotNet48Install.ps1\\Net48Install",
           "Properties": {
-            "MachineName": "[parameters('vmName')]"
           }
         }
       }
