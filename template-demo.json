@@ -326,52 +326,52 @@
                 ]
             }
         },
-        // {
-        //     "name": "[concat(parameters('vmName'),'/EMAInstallscript')]",
-        //     "type": "Microsoft.Compute/virtualMachines/extensions",
-        //     "apiVersion": "2019-07-01",
-        //     "location": "[resourceGroup().location]",
-        //     "tags": {
-        //         "displayName": "EMAInstall script for Windows VM"
-        //     },
-        //     "dependsOn": [
-        //         "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-        //     ],
-        //     "properties": {
-        //         "publisher": "Microsoft.Compute",
-        //         "type": "CustomScriptExtension",
-        //         "typeHandlerVersion": "1.10",
-        //         "autoUpgradeMinorVersion": true,
-        //         "settings": {
-        //             "fileUris": [
-        //                 "[variables('filename')]"
-        //             ]
-        //         },
-        //         "protectedSettings": {
-        //             "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
-        //         }
-        //     }
-        // },
-           {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('vmName'),'/InstallDotNet')]",
-      "apiVersion": "2019-12-01",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.Powershell",
-        "type": "DSC",
-        "typeHandlerVersion": "2.19",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "ModulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.zip?raw=true",
-          "ConfigurationFunction": "dotNet48Install.ps1\\Net48Install",
-          "Properties": {
-          }
-        }
+        {
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "name": "[concat(parameters('vmName'),'/InstallDotNet')]",
+        "apiVersion": "2019-12-01",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+        ],
+        "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.19",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+            "ModulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.zip?raw=true",
+            "ConfigurationFunction": "dotNet48Install.ps1\\Net48Install",
+            "Properties": {
+            }
+            }
       }
+    },
+    {
+        "name": "[concat(parameters('vmName'),'/EMAInstallscript')]",
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "apiVersion": "2019-07-01",
+        "location": "[resourceGroup().location]",
+        "tags": {
+            "displayName": "EMAInstall script for Windows VM"
+        },
+        "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+        ],
+        "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.10",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+                "fileUris": [
+                    "[variables('filename')]"
+                ]
+            },
+            "protectedSettings": {
+                "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
+            }
+        }
     }
     ],
     "outputs": {
