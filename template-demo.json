@@ -326,63 +326,67 @@
                 ]
             }
         },
-        // {
-        //     "name": "[concat(parameters('vmName'),'/EMAInstallscript')]",
-        //     "type": "Microsoft.Compute/virtualMachines/extensions",
-        //     "apiVersion": "2019-07-01",
-        //     "location": "[resourceGroup().location]",
-        //     "tags": {
-        //         "displayName": "EMAInstall script for Windows VM"
-        //     },
-        //     "dependsOn": [
-        //         "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-        //     ],
-        //     "properties": {
-        //         "publisher": "Microsoft.Compute",
-        //         "type": "CustomScriptExtension",
-        //         "typeHandlerVersion": "1.10",
-        //         "autoUpgradeMinorVersion": true,
-        //         "settings": {
-        //             "fileUris": [
-        //                 "[variables('filename')]"
-        //             ]
-        //         },
-        //         "protectedSettings": {
-        //             "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
-        //         }
-        //     }
-        // },
         {
-            "name": "[concat(parameters('vmName'),'/dotNetInstall')]",
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "apiVersion": "2019-07-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "dotNetInstall"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-            ],
-            "properties": {
-                "publisher": "Microsoft.Powershell",
-                "type": "DSC",
-                "typeHandlerVersion": "2.19",
-                "autoUpgradeMinorVersion": true,
-                "settings": {
-                    "modulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.zip?raw=true",
-                    "configurationFunction": "dotNET48Install.ps1\\Net48Install"
-                },
-                "protectedSettings": {
-                    "Items": {
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "name": "[concat(parameters('vmName'),'/InstallDotNet')]",
+        "apiVersion": "2019-12-01",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+        ],
+        "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.19",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+            "ModulesUrl": "https://github.com/autocloudarc/EMATemplate/blob/development/dsc/dotNET48Install.ps1.zip?raw=true",
+            "ConfigurationFunction": "dotNet48Install.ps1\\dotNet48Install",
+            "Properties": {
+                        "hostname": "reference(variables('publicIpName')).dnsSettings.fqdn",
                         "vmName": "[parameters('vmName')]",
                         "adminUsername": "[parameters('adminUsername')]",
-                        "adminPassword": "[parameters('adminPassword')]",
+                        "adminPassword": "PrivateSettingsRef:pw",
                         "globalUsername": "[parameters('globalUsername')]",
-                        "globalPassword": "[parameters('globalPassword')]"
+                        "globalPassword": "PrivateSettingsRef:globalPw"
                     }
+            },
+            "protectedSettings": {
+                "Items": {
+                    "pw": "[parameters('adminPassword')]",
+                    "globalPw":"[parameters('globalPassword')]" 
                 }
             }
+      }
+    }
+    /*
+    {
+        "name": "[concat(parameters('vmName'),'/EMAInstallscript')]",
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "apiVersion": "2019-07-01",
+        "location": "[resourceGroup().location]",
+        "tags": {
+            "displayName": "EMAInstall script for Windows VM"
+        },
+        "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+        ],
+        "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.10",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+                "fileUris": [
+                    "[variables('filename')]"
+                ]
+            },
+            "protectedSettings": {
+                "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
+            }
         }
+    }
+    */
     ],
     "outputs": {
         "hostname": {
