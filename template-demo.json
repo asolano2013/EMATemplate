@@ -328,7 +328,7 @@
         },
         {
         "type": "Microsoft.Compute/virtualMachines/extensions",
-        "name": "[concat(parameters('vmName'),'/InstallDotNet')]",
+        "name": "[concat(parameters('vmName'),'/InstallDotNetPlusEMA')]",
         "apiVersion": "2019-12-01",
         "location": "[resourceGroup().location]",
         "dependsOn": [
@@ -340,13 +340,27 @@
             "typeHandlerVersion": "2.19",
             "autoUpgradeMinorVersion": true,
             "settings": {
-            "ModulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dotNET48Install.zip?raw=true",
-            "ConfigurationFunction": "dotNet48Install.ps1\\Net48Install",
+            "ModulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dsc/dotNET48PlusEMAInstall.ps1.zip?raw=true",
+            "ConfigurationFunction": "dotNet48PlusEMAInstall.ps1\\dotNet48PlusEMAInstall",
             "Properties": {
+                        "hostname": "[reference(variables('publicIpName')).dnsSettings.fqdn]",
+                        "vmName": "[parameters('vmName')]",
+                        "adminUsername": "[parameters('adminUsername')]",
+                        "adminPassword": "PrivateSettingsRef:pw",
+                        "globalUsername": "[parameters('globalUsername')]",
+                        "globalPassword": "PrivateSettingsRef:globalPw"
+                    }
+            },
+            "protectedSettings": {
+                "Items": {
+                    "pw": "[parameters('adminPassword')]",
+                    "globalPw":"[parameters('globalPassword')]" 
+                }
             }
-            }
+
       }
-    },
+    }
+    /*
     {
         "name": "[concat(parameters('vmName'),'/EMAInstallscript')]",
         "type": "Microsoft.Compute/virtualMachines/extensions",
@@ -371,8 +385,9 @@
             "protectedSettings": {
                 "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
             }
-        }
+      }
     }
+    */
     ],
     "outputs": {
         "hostname": {
