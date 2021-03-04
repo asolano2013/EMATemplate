@@ -345,15 +345,21 @@
             "Properties": {
                         "hostname": "[reference(variables('publicIpName')).dnsSettings.fqdn]",
                         "vmName": "[parameters('vmName')]",
-                        "adminUsername": "[parameters('adminUsername')]",
-                        "adminPassword": "PrivateSettingsRef:pw",
-                        "globalUsername": "[parameters('globalUsername')]",
-                        "globalPassword": "PrivateSettingsRef:globalPw"
+                        /*
+                        "adminCred": {
+                            "userName": "[parameters('adminUsername')]",
+                            "password": "PrivateSettingsRef:pw"
+                        },
+                        */
+                        "globalCred": {
+                            "globalName": "[parameters('globalUsername')]",
+                            "globalPassword": "PrivateSettingsRef:globalPw"
+                        }
                     }
             },
             "protectedSettings": {
                 "Items": {
-                    "pw": "[parameters('adminPassword')]",
+                    // "pw": "[parameters('adminPassword')]"
                     "globalPw":"[parameters('globalPassword')]" 
                 }
             }

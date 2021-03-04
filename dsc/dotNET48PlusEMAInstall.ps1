@@ -9,18 +9,14 @@
         [Parameter(Mandatory)]
         [String]$vmName,
 
+        <#
         [Parameter(Mandatory)]
-        [String]$adminUsername,
-
+        [System.Management.Automation.PSCredential]$adminCred,
+        #>
+        
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential]$adminPassword,
-
-        [Parameter(Mandatory)]
-        [String]$globalUsername,
-
-        [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential]$globalPassword
-    )
+        [System.Management.Automation.PSCredential]$globalCred
+    ) # end param
 
     Import-DscResource -ModuleName PSDesiredStateConfiguration
 
@@ -160,12 +156,16 @@
                 NET START MSSQLSERVER
 
                 # Run EMA Installer.exe
- 
+                
+                $globalUsername = $globalCred.UserName
+                $globalPassword = $globalCred.Password
+
+                $args = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$globalPassword","--verbose","--autoexit","--accepteula")
+                $currentTimeEmaStart = Get-Date
+                Write-Host "EMA install starting... $currentTimeEmaStart"
+
                 try
                 {
-                    $args = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$globalPassword","--verbose","--autoexit","--accepteula")
-                    $currentTimeEmaStart = Get-Date
-                    Write-Host "EMA install starting... $currentTimeEmaStart"
                     Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall" -Wait 
                     $currentTimeEmaStop = Get-Date
                     Write-Host "EMA install process complete.  $currentTimeEmaStop"
