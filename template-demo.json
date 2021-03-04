@@ -340,17 +340,11 @@
             "typeHandlerVersion": "2.19",
             "autoUpgradeMinorVersion": true,
             "settings": {
-            "ModulesUrl": "https://github.com/asolano2013/EMATemplate/blob/main/dsc/dotNET48PlusEMAInstall.ps1.zip?raw=true",
+            "ModulesUrl": "https://github.com/autocloudarc/EMATemplate/blob/main/dsc/dotNET48PlusEMAInstall.ps1.zip?raw=true",
             "ConfigurationFunction": "dotNet48PlusEMAInstall.ps1\\dotNet48PlusEMAInstall",
             "Properties": {
                         "hostname": "[reference(variables('publicIpName')).dnsSettings.fqdn]",
                         "vmName": "[parameters('vmName')]",
-                        /*
-                        "adminCred": {
-                            "userName": "[parameters('adminUsername')]",
-                            "password": "PrivateSettingsRef:pw"
-                        },
-                        */
                         "globalCred": {
                             "globalName": "[parameters('globalUsername')]",
                             "globalPassword": "PrivateSettingsRef:globalPw"
@@ -359,7 +353,6 @@
             },
             "protectedSettings": {
                 "Items": {
-                    // "pw": "[parameters('adminPassword')]"
                     "globalPw":"[parameters('globalPassword')]" 
                 }
             }
