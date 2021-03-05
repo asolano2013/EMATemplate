@@ -211,6 +211,8 @@
     } # end node
 } # end configuration
 
+<#
 dotNET48PlusEMAInstall -OutputPath $env:SystemDrive:\DSCconfig
 Set-DscLocalConfigurationManager -ComputerName localhost -Path $env:SystemDrive\DSCconfig -Verbose
 Start-DscConfiguration -ComputerName localhost -Path $env:SystemDrive:\DSCconfig -Verbose -Wait -Force
+#>
