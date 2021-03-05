@@ -8,12 +8,7 @@
 
         [Parameter(Mandatory)]
         [String]$vmName,
-
-        <#
-        [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential]$adminCred,
-        #>
-        
+       
         [Parameter(Mandatory)]
         [System.Management.Automation.PSCredential]$globalCred
     ) # end param
@@ -184,11 +179,14 @@
 
             TestScript = {
 
-                $targetServiceName = "PlatformManager"
+                $script:targetServiceName = "PlatformManager"
 
-                $checkForService = (Get-Service -Name $targetServiceName).Name
-                
-                if ($checkForService -eq $targetServiceName)
+                $checkForService = $null
+
+                # $checkForService = (Get-Service -Name $targetServiceName -ErrorAction SilentlyContinue).Name
+                $checkForService = (Get-Service -Name $targetServiceName -ErrorAction SilentlyContinue).Name
+
+                if ($checkForService -ne $targetServiceName)
                 {
                     Write-Verbose "Intel Endpoint Management Assistant is not installed."
                     return $false
@@ -201,18 +199,28 @@
             } # end TestScript
             
             GetScript = {
-                @{
-                    # Get result of the EMA service availability
-                    Result = (Get-Service -Name 'PlatformManager').Name 
-                } # end hashtable
+                $currentTargetService = ((Get-Service -Name $targetServiceName).Name)
+                return @{ 'result' = "$currentTargetService" }
             } # end GetScript
             DependsOn = "[Script]Install_Net_4.8"
         } # end resource
     } # end node
 } # end configuration
 
+# (Preston) Original commands below were interfering with the native Azure DSC extension engine to apply the configuration 
 <#
 dotNET48PlusEMAInstall -OutputPath $env:SystemDrive:\DSCconfig
 Set-DscLocalConfigurationManager -ComputerName localhost -Path $env:SystemDrive\DSCconfig -Verbose
 Start-DscConfiguration -ComputerName localhost -Path $env:SystemDrive:\DSCconfig -Verbose -Wait -Force
+#>
+
+# (Preston) Uncomment below for interactive testing on the VM if necessary
+<#
+$globalUserName = "adm.infra.user@dev.adatum.com"
+$globalCred = Get-Credential -Message "Enter credentials for $globalUserName" -UserName $globalUserName
+$mofPath = ".\dotNET48PlusEMAInstall"
+
+dotNET48PlusEMAInstall -hostname "azrema2801.eastus2.cloudapp.azure.com" -vmName "azrema2801" -globalCred $globalCred
+Set-DscLocalConfigurationManager -ComputerName localhost -Path $mofPath -Verbose
+Start-DscConfiguration -ComputerName localhost -Path $mofPath -Verbose -Wait -Force
 #>
