@@ -125,7 +125,7 @@
 
                 # Download EMA Install file from GitLab
 
-                $urlEma = "https://downloadmirror.intel.com/28994/eng/Ema_Install_Package_1.3.3.1.exe"
+                $urlEma = "downloadmirror.intel.com/28994/eng/Ema_Install_Package_1.4.0.0.exe"
                 $outputEma = "C:\Temp\EMAInstall.zip"
 
                 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls, [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Ssl3
