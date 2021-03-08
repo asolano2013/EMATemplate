@@ -155,13 +155,12 @@
                 $globalUsername = $globalCred.UserName
                 $globalPassword = $globalCred.Password
 
-                $args = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$globalPassword","--verbose","--autoexit","--accepteula")
-                $currentTimeEmaStart = Get-Date
-                Write-Host "EMA install starting... $currentTimeEmaStart"
-
                 try
                 {
-                    Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $args -WorkingDirectory "C:\Temp\EMAInstall" -Wait 
+                    $emaArgs = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$globalPassword","--verbose","--autoexit","--accepteula")
+                    $currentTimeEmaStart = Get-Date
+                    Write-Host "EMA install starting... $currentTimeEmaStart"
+                    Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $emaArgs -WorkingDirectory "C:\Temp\EMAInstall" -Wait 
                     $currentTimeEmaStop = Get-Date
                     Write-Host "EMA install process complete.  $currentTimeEmaStop"
                 } # end try
