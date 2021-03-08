@@ -8,9 +8,6 @@
 
         [Parameter(Mandatory)]
         [String]$vmName,
-
-        [Parameter(Mandatory)]
-        [String]$globalUsername,
        
         [Parameter(Mandatory)]
         [System.Management.Automation.PSCredential]$globalCred
@@ -154,8 +151,9 @@
                 NET START MSSQLSERVER
 
                 # Run EMA Installer.exe
-                
-                $globalPassword = $globalCred.password
+
+                $globalUsername = $globalCred.UserName
+                $globalPassword = $globalCred.Password
                 $gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
 
                 try
