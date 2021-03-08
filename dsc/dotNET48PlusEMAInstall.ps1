@@ -152,8 +152,8 @@
 
                 # Run EMA Installer.exe
                 
-                $globalUsername = $globalCred.UserName
-                $globalPassword = $globalCred.Password
+                $globalUsername = $globalCred.userName
+                $globalPassword = $globalCred.password
                 $gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
 
                 try
