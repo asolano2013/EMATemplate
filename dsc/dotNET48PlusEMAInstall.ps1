@@ -8,6 +8,9 @@
 
         [Parameter(Mandatory)]
         [String]$vmName,
+
+        [Parameter(Mandatory)]
+        [String]$globalUsername,
        
         [Parameter(Mandatory)]
         [System.Management.Automation.PSCredential]$globalCred
@@ -152,7 +155,6 @@
 
                 # Run EMA Installer.exe
                 
-                $globalUsername = $globalCred.userName
                 $globalPassword = $globalCred.password
                 $gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
 
