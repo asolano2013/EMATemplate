@@ -154,14 +154,19 @@
 
                 $globalUsername = $globalCred.UserName
                 $globalPassword = $globalCred.Password
-                $gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
+                # $gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
+
+                # Temporarily convert $globalPassword secure string to plain-text to see if it can be properly passed as a plain-text argument for the installation
+                $globalPasswordPlainText = [Runtime.interopServices.marshal]::PtrToStringAuto(([runtime.InterOpservices.Marshal])::SecurestringToBstr($globalPassword))
 
                 try
                 {
-                    $emaArgs = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$gPass","--verbose","--autoexit","--accepteula")
+                    $emaArgs = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$globalPasswordPlainText","--verbose","--autoexit","--accepteula")
                     $currentTimeEmaStart = Get-Date
                     Write-Host "EMA install starting... $currentTimeEmaStart"
                     Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $emaArgs -WorkingDirectory "C:\Temp\EMAInstall" -Wait 
+                    # Remove plaintext value to maintain confidentiality
+                    $globalPasswordPlainText = $null
                     $currentTimeEmaStop = Get-Date
                     Write-Host "EMA install process complete.  $currentTimeEmaStop"
                 } # end try
@@ -203,6 +208,12 @@
                 return @{ 'result' = "$currentTargetService" }
             } # end GetScript
             DependsOn = "[Script]Install_Net_4.8"
+        } # end resource
+        Service $targetServiceName
+        {
+            Name = $targetServiceName 
+            State = "Running"
+            DependsOn = "[Script]Install_EMA"
         } # end resource
     } # end node
 } # end configuration
