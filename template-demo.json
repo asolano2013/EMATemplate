@@ -346,13 +346,14 @@
                         "hostname": "[reference(variables('publicIpName')).dnsSettings.fqdn]",
                         "vmName": "[parameters('vmName')]",
                         "globalCred": {
-                            "userName": "[parameters('globalUsername')]",
+                            "userName": "PrivateSettingsRef:globalUsr",
                             "password": "PrivateSettingsRef:globalPw"
                         }
                     }
             },
             "protectedSettings": {
                 "Items": {
+                    "globalUsr": "[parameters('globalUsername')]",
                     "globalPw":"[parameters('globalPassword')]" 
                 }
             }
