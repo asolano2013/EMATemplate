@@ -218,12 +218,10 @@
 } # end configuration
 
 # (Preston) Uncomment below for interactive testing on the VM if necessary
-
+<#
 $globalUserName = "adm.infra.user@dev.adatum.com"
 $globalCred = Get-Credential -Message "Enter credentials for $globalUserName" -UserName $globalUserName
 $mofPath = ".\dotNET48PlusEMAInstall"
-
-<#
 dotNET48PlusEMAInstall -hostname "azremaXXXX.eastus2.cloudapp.azure.com" -vmName "azremaXXXX" -globalCred $globalCred
 Set-DscLocalConfigurationManager -ComputerName localhost -Path $mofPath -Verbose
 Start-DscConfiguration -ComputerName localhost -Path $mofPath -Verbose -Wait -Force
