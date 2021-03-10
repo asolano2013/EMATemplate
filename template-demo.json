@@ -346,8 +346,8 @@
                         "hostname": "[reference(variables('publicIpName')).dnsSettings.fqdn]",
                         "vmName": "[parameters('vmName')]",
                         "globalCred": {
-                            "userName": "[parameters('globalUsername')]",
-                            "password": "PrivateSettingsRef:globalPw"
+                            "UserName": "[parameters('globalUsername')]",
+                            "Password": "PrivateSettingsRef:globalPw"
                         }
                     }
             },
