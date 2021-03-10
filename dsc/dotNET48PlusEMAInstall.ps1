@@ -9,7 +9,8 @@
         [Parameter(Mandatory)]
         [String]$vmName,
        
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullorEmpty()]
         [PSCredential]$globalCred
     ) # end param
 
@@ -153,14 +154,14 @@
                 # Run EMA Installer.exe
 
                 $globalUsername = $globalCred.UserName
-                $globalPassword = $globalCred.Password
+                $globalPassword = $globalCred
                 #$gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
-                $gpass = ConvertTo-SecureString $globalPassword -AsPlainText -Force
+                #$gpass = ConvertTo-SecureString $globalPassword -AsPlainText -Force
                 #$adminCreds = New-Object PSCredential $globalUsername, $gpass
 
                 try
                 {
-                    $emaArgs = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$gPass","--verbose","--autoexit","--accepteula")
+                    $emaArgs = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$globalPassword","--verbose","--autoexit","--accepteula")
                     $currentTimeEmaStart = Get-Date
                     Write-Host "EMA install starting... $currentTimeEmaStart"
                     Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $emaArgs -WorkingDirectory "C:\Temp\EMAInstall" -Wait 
