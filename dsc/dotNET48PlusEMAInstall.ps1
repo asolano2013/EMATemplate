@@ -154,7 +154,9 @@
 
                 $globalUsername = $globalCred.UserName
                 $globalPassword = $globalCred.Password
-                $gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
+                #$gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
+                $gpass = ConvertTo-SecureString $globalPassword -AsPlainText -Force
+                #$adminCreds = New-Object PSCredential $globalUsername, $gpass
 
                 try
                 {
