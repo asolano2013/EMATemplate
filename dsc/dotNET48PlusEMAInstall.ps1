@@ -157,16 +157,16 @@
                 # $gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
 
                 # Temporarily convert $globalPassword secure string to plain-text to see if it can be properly passed as a plain-text argument for the installation
-                $globalPasswordPlainText = [Runtime.interopServices.marshal]::PtrToStringAuto(([runtime.InterOpservices.Marshal])::SecurestringToBstr($globalPassword))
+                $gPassPlainText = $globalCred.GetNetworkCredential().Password
 
                 try
                 {
-                    $emaArgs = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$globalPasswordPlainText","--verbose","--autoexit","--accepteula")
+                    $emaArgs = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$gPassPlainText","--verbose","--autoexit","--accepteula")
                     $currentTimeEmaStart = Get-Date
                     Write-Host "EMA install starting... $currentTimeEmaStart"
                     Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $emaArgs -WorkingDirectory "C:\Temp\EMAInstall" -Wait 
                     # Remove plaintext value to maintain confidentiality
-                    $globalPasswordPlainText = $null
+                    $gPassPlainText = $null
                     $currentTimeEmaStop = Get-Date
                     Write-Host "EMA install process complete.  $currentTimeEmaStop"
                 } # end try
