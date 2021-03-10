@@ -211,20 +211,13 @@
     } # end node
 } # end configuration
 
-# (Preston) Original commands below were interfering with the native Azure DSC extension engine to apply the configuration 
-<#
-dotNET48PlusEMAInstall -OutputPath $env:SystemDrive:\DSCconfig
-Set-DscLocalConfigurationManager -ComputerName localhost -Path $env:SystemDrive\DSCconfig -Verbose
-Start-DscConfiguration -ComputerName localhost -Path $env:SystemDrive:\DSCconfig -Verbose -Wait -Force
-#>
-
 # (Preston) Uncomment below for interactive testing on the VM if necessary
 <#
 $globalUserName = "adm.infra.user@dev.adatum.com"
 $globalCred = Get-Credential -Message "Enter credentials for $globalUserName" -UserName $globalUserName
 $mofPath = ".\dotNET48PlusEMAInstall"
 
-dotNET48PlusEMAInstall -hostname "azrema2801.eastus2.cloudapp.azure.com" -vmName "azrema2801" -globalCred $globalCred
+dotNET48PlusEMAInstall -hostname "azremaXXXX.eastus2.cloudapp.azure.com" -vmName "azremaXXXX" -globalCred $globalCred
 Set-DscLocalConfigurationManager -ComputerName localhost -Path $mofPath -Verbose
 Start-DscConfiguration -ComputerName localhost -Path $mofPath -Verbose -Wait -Force
 #>
