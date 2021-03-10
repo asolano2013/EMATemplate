@@ -1,9 +1,7 @@
 {
     "$schema": "https://aka.ms/ematemplate-schema#",
-    "type": "ManagedApplication",
-    "itemDisplayName": "Intel® Endpoint Management Asistant (Intel® EMA) instance",
-    "summary": "Intel® EMA",
+    "type": "Custom",
+    "itemDisplayName": "Intel® Endpoint Management Asistant (Intel® EMA) instance deployment",
     "description": "This template deploys a Virtual Machine with Intel® EMA pre installed",
-    "githubUsername": "placeholder",
-    "dateUpdated": "2021-03-10"
+    "summary": ""
 }
