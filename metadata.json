@@ -1,6 +1,5 @@
 {
     "$schema": "https://aka.ms/ematemplate-schema#",
-    // "$schema": "https://aka.ms/azure-quickstart-templates-metadata-schema#",
     "type": "ManagedApplication",
     "itemDisplayName": "Intel® Endpoint Management Asistant (Intel® EMA) instance",
     "summary": "Intel® EMA",
