@@ -188,7 +188,6 @@
 
                 $checkForService = $null
 
-                # $checkForService = (Get-Service -Name $targetServiceName -ErrorAction SilentlyContinue).Name
                 $checkForService = (Get-Service -Name $targetServiceName -ErrorAction SilentlyContinue).Name
 
                 if ($checkForService -ne $targetServiceName)
@@ -208,12 +207,6 @@
                 return @{ 'result' = "$currentTargetService" }
             } # end GetScript
             DependsOn = "[Script]Install_Net_4.8"
-        } # end resource
-        Service $targetServiceName
-        {
-            Name = $targetServiceName 
-            State = "Running"
-            DependsOn = "[Script]Install_EMA"
         } # end resource
     } # end node
 } # end configuration
