@@ -10,7 +10,7 @@
         [String]$vmName,
        
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential]$globalCred
+        [PSCredential]$globalCred
     ) # end param
 
     Import-DscResource -ModuleName PSDesiredStateConfiguration
