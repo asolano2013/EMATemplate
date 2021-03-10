@@ -74,7 +74,7 @@
 
                 [int]$NetBuildVersion = 528040
 
-                if (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full' | %{$_ -match 'Release'})
+                if (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full' | ForEach-Object {$_ -match 'Release'})
                 {
                     [int]$CurrentRelease = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full').Release
                     if ($CurrentRelease -lt $NetBuildVersion)
