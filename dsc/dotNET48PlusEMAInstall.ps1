@@ -19,8 +19,6 @@
     $dbname = "emadb"
     $globalUsername = $globalCred.UserName
     $globalPassword = $globalCred.Password
-    # $gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
-    # Temporarily convert $globalPassword secure string to plain-text to see if it can be properly passed as a plain-text argument for the installation
     $gPassPlainText = $globalCred.GetNetworkCredential().Password
     $emaArgs = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$gPassPlainText","--verbose","--autoexit","--accepteula")
 
@@ -130,7 +128,7 @@
                     Write-Host "Temp folder has been created"
                 } # end if
 
-                # Download EMA Install file from GitLab
+                # Download EMA Install file from DownloadCenter
 
                 $urlEma = "https://downloadmirror.intel.com/28994/eng/Ema_Install_Package_1.4.0.0.exe"
                 $outputEma = "C:\Temp\EMAInstall.zip"
@@ -176,7 +174,6 @@
                 } # end try
                 catch 
                 {
-                    # https://www.tutorialspoint.com/explain-try-catch-finally-block-in-powershell
                     Write-Host "An error ocurred! Please try again..."
                     Write-Host "Error in Line:" $_.Exception.Message
                     Write-Host "Error in Line Number:" $_.InvocationInfo.ScriptLineNumber 
@@ -192,6 +189,7 @@
 
             TestScript = {
 
+                #Test and validate the existence of Platform Manager service to confirm Intel EMA installation
                 $script:targetServiceName = "PlatformManager"
 
                 $checkForService = $null
@@ -218,13 +216,3 @@
         } # end resource
     } # end node
 } # end configuration
-
-# (Preston) Uncomment below for interactive testing on the VM if necessary
-<#
-$globalUserName = "adm.infra.user@dev.adatum.com"
-$globalCred = Get-Credential -Message "Enter credentials for $globalUserName" -UserName $globalUserName
-$mofPath = ".\dotNET48PlusEMAInstall"
-dotNET48PlusEMAInstall -hostname "azremaXXXX.eastus2.cloudapp.azure.com" -vmName "azremaXXXX" -globalCred $globalCred
-Set-DscLocalConfigurationManager -ComputerName localhost -Path $mofPath -Verbose
-Start-DscConfiguration -ComputerName localhost -Path $mofPath -Verbose -Wait -Force
-#>
