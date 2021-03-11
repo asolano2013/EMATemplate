@@ -346,47 +346,20 @@
                         "hostname": "[reference(variables('publicIpName')).dnsSettings.fqdn]",
                         "vmName": "[parameters('vmName')]",
                         "globalCred": {
-                            "userName": "[parameters('globalUsername')]",
+                            "userName": "PrivateSettingsRef:globalUsr",
                             "password": "PrivateSettingsRef:globalPw"
                         }
                     }
             },
             "protectedSettings": {
                 "Items": {
+                    "globalUsr": "[parameters('globalUsername')]",
                     "globalPw":"[parameters('globalPassword')]" 
                 }
             }
 
       }
     }
-    /*
-    {
-        "name": "[concat(parameters('vmName'),'/EMAInstallscript')]",
-        "type": "Microsoft.Compute/virtualMachines/extensions",
-        "apiVersion": "2019-07-01",
-        "location": "[resourceGroup().location]",
-        "tags": {
-            "displayName": "EMAInstall script for Windows VM"
-        },
-        "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-        ],
-        "properties": {
-            "publisher": "Microsoft.Compute",
-            "type": "CustomScriptExtension",
-            "typeHandlerVersion": "1.10",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-                "fileUris": [
-                    "[variables('filename')]"
-                ]
-            },
-            "protectedSettings": {
-                "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('scriptName'), ' ', reference(variables('publicIpName')).dnsSettings.fqdn, ' ', parameters('vmName'), ' ', parameters('globalUsername'), ' ', parameters('globalPassword'))]"
-            }
-      }
-    }
-    */
     ],
     "outputs": {
         "hostname": {

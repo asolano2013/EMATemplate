@@ -9,8 +9,9 @@
         [Parameter(Mandatory)]
         [String]$vmName,
        
-        [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential]$globalCred
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullorEmpty()]
+        [PSCredential]$globalCred
     ) # end param
 
     Import-DscResource -ModuleName PSDesiredStateConfiguration
@@ -165,6 +166,7 @@
                 $error.Clear()
                 try
                 {
+                    $emaArgs = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$globalPassword","--verbose","--autoexit","--accepteula")
                     $currentTimeEmaStart = Get-Date
                     Write-Host "EMA install starting... $currentTimeEmaStart"
                     Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $using:emaArgs -WorkingDirectory "C:\Temp\EMAInstall" -Wait 
