@@ -17,6 +17,12 @@
     Import-DscResource -ModuleName PSDesiredStateConfiguration
 
     $dbname = "emadb"
+    $globalUsername = $globalCred.UserName
+    $globalPassword = $globalCred.Password
+    # $gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
+    # Temporarily convert $globalPassword secure string to plain-text to see if it can be properly passed as a plain-text argument for the installation
+    $gPassPlainText = $globalCred.GetNetworkCredential().Password
+    $emaArgs = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$gPassPlainText","--verbose","--autoexit","--accepteula")
 
     node "localhost"
     {
@@ -75,7 +81,7 @@
 
                 [int]$NetBuildVersion = 528040
 
-                if (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full' | %{$_ -match 'Release'})
+                if (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full' | ForEach-Object {$_ -match 'Release'})
                 {
                     [int]$CurrentRelease = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full').Release
                     if ($CurrentRelease -lt $NetBuildVersion)
@@ -135,8 +141,12 @@
  
                 # Extract EMA Install file
 
-                add-type -AssemblyName System.IO.Compression.FileSystem
-                [system.io.compression.zipFile]::ExtractToDirectory('C:\Temp\EMAInstall.zip','C:\Temp\EMAInstall')
+                $targetInstallPath = "C:\Temp\EMAInstall" 
+                if (-not(Test-Path -Path $targetInstallPath))
+                {
+                    add-type -AssemblyName System.IO.Compression.FileSystem
+                    [system.io.compression.zipFile]::ExtractToDirectory('C:\Temp\EMAInstall.zip',$targetInstallPath)
+                } # end if
 
                 $currentTimeEma = Get-Date
                 Write-Host "Pausing 120 seconds to ensure database is ready... $currentTimeEma"
@@ -148,29 +158,29 @@
                 Write-Host "Enabling system account to create Intel EMA database... "
                 SQLCMD -Q "EXEC master..sp_addsrvrolemember @loginame = N'NT AUTHORITY\SYSTEM', @rolename = N'sysadmin'" 
 
+                Write-Host "Restarting MSSQLSERVER"
                 NET STOP MSSQLSERVER
                 NET START MSSQLSERVER
 
                 # Run EMA Installer.exe
-
-                $globalUsername = $globalCred.UserName
-                $globalPassword = $globalCred.Password
-                #$gPass = (New-Object PSCredential $globalUsername, $globalPassword).GetNetworkCredential().Password
-                #$gpass = ConvertTo-SecureString $globalPassword -AsPlainText -Force
-                #$adminCreds = New-Object PSCredential $globalUsername, $gpass
-
+                $error.Clear()
                 try
                 {
                     $emaArgs = @("FULLINSTALL","--host=$hostname","--dbserver=$vmName","--db=$dbname","--guser=$globalUsername","--gpass=$globalPassword","--verbose","--autoexit","--accepteula")
                     $currentTimeEmaStart = Get-Date
                     Write-Host "EMA install starting... $currentTimeEmaStart"
-                    Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $emaArgs -WorkingDirectory "C:\Temp\EMAInstall" -Wait 
+                    Start-Process -Filepath "C:\Temp\EMAInstall\EMAServerInstaller.exe" -ArgumentList $using:emaArgs -WorkingDirectory "C:\Temp\EMAInstall" -Wait 
+                    # Remove plaintext value to maintain confidentiality
                     $currentTimeEmaStop = Get-Date
                     Write-Host "EMA install process complete.  $currentTimeEmaStop"
                 } # end try
                 catch 
                 {
+                    # https://www.tutorialspoint.com/explain-try-catch-finally-block-in-powershell
                     Write-Host "An error ocurred! Please try again..."
+                    Write-Host "Error in Line:" $_.Exception.Message
+                    Write-Host "Error in Line Number:" $_.InvocationInfo.ScriptLineNumber 
+                    Write-Host "Error ItemName:" $_.Exception.ItemName
                 } # end catch
                 finally 
                 {
@@ -186,7 +196,6 @@
 
                 $checkForService = $null
 
-                # $checkForService = (Get-Service -Name $targetServiceName -ErrorAction SilentlyContinue).Name
                 $checkForService = (Get-Service -Name $targetServiceName -ErrorAction SilentlyContinue).Name
 
                 if ($checkForService -ne $targetServiceName)
@@ -210,20 +219,12 @@
     } # end node
 } # end configuration
 
-# (Preston) Original commands below were interfering with the native Azure DSC extension engine to apply the configuration 
-<#
-dotNET48PlusEMAInstall -OutputPath $env:SystemDrive:\DSCconfig
-Set-DscLocalConfigurationManager -ComputerName localhost -Path $env:SystemDrive\DSCconfig -Verbose
-Start-DscConfiguration -ComputerName localhost -Path $env:SystemDrive:\DSCconfig -Verbose -Wait -Force
-#>
-
 # (Preston) Uncomment below for interactive testing on the VM if necessary
 <#
 $globalUserName = "adm.infra.user@dev.adatum.com"
 $globalCred = Get-Credential -Message "Enter credentials for $globalUserName" -UserName $globalUserName
 $mofPath = ".\dotNET48PlusEMAInstall"
-
-dotNET48PlusEMAInstall -hostname "azrema2801.eastus2.cloudapp.azure.com" -vmName "azrema2801" -globalCred $globalCred
+dotNET48PlusEMAInstall -hostname "azremaXXXX.eastus2.cloudapp.azure.com" -vmName "azremaXXXX" -globalCred $globalCred
 Set-DscLocalConfigurationManager -ComputerName localhost -Path $mofPath -Verbose
 Start-DscConfiguration -ComputerName localhost -Path $mofPath -Verbose -Wait -Force
 #>
