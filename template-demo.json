@@ -268,34 +268,6 @@
                         }
                     },
                     {
-                        "name": "Port1010",
-                        "properties": {
-                            "description": "Port 1010",
-                            "protocol": "Tcp",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "1010",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Allow",
-                            "priority": 104,
-                            "direction": "Inbound"
-                        }
-                    },
-                    {
-                        "name": "Port8000",
-                        "properties": {
-                            "description": "Port 8000",
-                            "protocol": "Tcp",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "8000",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Allow",
-                            "priority": 105,
-                            "direction": "Inbound"
-                        }
-                    },
-                    {
                         "name": "Port3389",
                         "properties": {
                             "description": "Allow RDP",
